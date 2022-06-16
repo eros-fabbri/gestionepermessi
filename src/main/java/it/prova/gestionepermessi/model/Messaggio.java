@@ -3,19 +3,35 @@ package it.prova.gestionepermessi.model;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="messaggio")
 public class Messaggio {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
+	private Long id;
+	@Column(name = "testo")
 	private String testo;
+	@Column(name = "ogetto")
 	private String ogetto;
+	@Column(name = "dataInserimento")
 	private Date dataInserimento;
+	@Column(name = "dataLettura")
 	private Date dataLettura;
+	
+
+	@OneToOne
+	@JoinColumn(name = "richiestaPermesso_id", referencedColumnName = "id")
 	private RichiestaPermesso richiestaPermesso;
 	
 	public Messaggio() {

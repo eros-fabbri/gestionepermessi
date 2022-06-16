@@ -1,29 +1,61 @@
 package it.prova.gestionepermessi.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Length;
+
+
+@Entity
+@Table(name = "dipendente", uniqueConstraints = @UniqueConstraint(columnNames = { "utente_id" }))
 public class Dipendente {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
+	private Long id;
+	@Column(name = "nome")
 	private String nome;
+	@Column(name = "cognome")
 	private String cognome;
-	// lunghezza di 16 caratteri constraint
+	@Length(min = 16, max=16)
+	@Column(name = "cf")
 	private String codFis;
+	@Column(name = "email")
 	private String email;
+	@Column(name = "dataNascita")
 	private Date dataNascita;
+	@Column(name = "dataAssunzione")
 	private Date dataAssunzione;
+	@Column(name = "dataDimissione")
 	private Date dataDimissione;
-	// enumtype
+	@Column(name = "sesso")
+	@Enumerated(EnumType.STRING)
 	private Sesso sesso;
-	// onetoone
+	
+	@NotNull
+	@OneToOne
+	@JoinColumn(name = "utente_id", referencedColumnName = "id")
 	private Utente utente;
-
+	
+	@OneToMany(mappedBy = "dipendente")
+	private List<RichiestaPermesso> richiestaPermesso = new ArrayList<RichiestaPermesso>();
+	
 	public Dipendente() {
 	}
 

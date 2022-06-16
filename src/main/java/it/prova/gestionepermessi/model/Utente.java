@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -30,12 +31,14 @@ public class Utente {
 	private String password;
 	@Column(name = "dateCreated")
 	private Date dateCreated;
-
-	private Dipendente dipendente;
-
-	// se non uso questa annotation viene gestito come un intero
+	@Column(name = "stato")
 	@Enumerated(EnumType.STRING)
 	private StatoUtente stato = StatoUtente.CREATO;
+	
+
+	@OneToOne(mappedBy = "utente")
+	private Dipendente dipendente;
+	
 
 	@ManyToMany
 	@JoinTable(name = "utente_ruolo", joinColumns = @JoinColumn(name = "utente_id", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ruolo_id", referencedColumnName = "ID"))
