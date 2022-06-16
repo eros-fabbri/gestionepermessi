@@ -17,44 +17,48 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.prova.gestionepermessi.model.Dipendente;
 import it.prova.gestionepermessi.model.StatoUtente;
 import it.prova.gestionepermessi.model.Utente;
+import it.prova.gestionepermessi.repository.dipendente.DipendenteRepository;
 import it.prova.gestionepermessi.repository.utente.UtenteRepository;
 
 @Service
 public class UtenteServiceImpl implements UtenteService {
 
 	@Autowired
-	private UtenteRepository repository;
-	
+	private UtenteRepository utenteRepository;
+	@Autowired
+	private DipendenteRepository dipendenteRepository;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
+
 	@Transactional(readOnly = true)
 	public List<Utente> listAllUtenti() {
-		return (List<Utente>) repository.findAll();
+		return (List<Utente>) utenteRepository.findAll();
 	}
 
 	@Transactional(readOnly = true)
 	public Utente caricaSingoloUtente(Long id) {
-		return repository.findById(id).orElse(null);
+		return utenteRepository.findById(id).orElse(null);
 	}
 	
 	@Transactional(readOnly = true)
 	public Utente caricaSingoloUtenteConRuoli(Long id) {
-		return repository.findByIdConRuoli(id).orElse(null);
+		return utenteRepository.findByIdConRuoli(id).orElse(null);
 	}
 
 	@Transactional
 	public void aggiorna(Utente utenteInstance) {
 		//deve aggiornare solo nome, cognome, username, ruoli
-		Utente utenteReloaded = repository.findById(utenteInstance.getId()).orElse(null);
+		Utente utenteReloaded = utenteRepository.findById(utenteInstance.getId()).orElse(null);
 		if(utenteReloaded == null)
 			throw new RuntimeException("Elemento non trovato");
 		utenteReloaded.setDipendente(utenteInstance.getDipendente());
 		utenteReloaded.setUsername(utenteInstance.getUsername());
 		utenteReloaded.setRuoli(utenteInstance.getRuoli());
-		repository.save(utenteReloaded);
+		utenteRepository.save(utenteReloaded);
 	}
 
 	@Transactional
@@ -62,23 +66,34 @@ public class UtenteServiceImpl implements UtenteService {
 		utenteInstance.setStato(StatoUtente.CREATO);
 		utenteInstance.setPassword(passwordEncoder.encode(utenteInstance.getPassword())); 
 		utenteInstance.setDateCreated(new Date());
-		repository.save(utenteInstance);
+		utenteRepository.save(utenteInstance);
 	}
+	
+	@Transactional
+	public void inserisciNuovoConDipendente(Utente utenteInstance, Dipendente dipendenteInstance) {
+		utenteInstance.setStato(StatoUtente.CREATO);
+		utenteInstance.setPassword(passwordEncoder.encode(utenteInstance.getPassword())); 
+		utenteInstance.setDateCreated(new Date());
+		utenteRepository.save(utenteInstance);
+		dipendenteRepository.save(dipendenteInstance);
+		
+	}
+
 
 	@Transactional
 	public void rimuovi(Utente utenteInstance) {
-		repository.delete(utenteInstance);
+		utenteRepository.delete(utenteInstance);
 	}
 
 	
 	@Transactional(readOnly = true)
 	public Utente eseguiAccesso(String username, String password) {
-		return repository.findByUsernameAndPasswordAndStato(username, password,StatoUtente.ATTIVO);
+		return utenteRepository.findByUsernameAndPasswordAndStato(username, password,StatoUtente.ATTIVO);
 	}
 
 	@Override
 	public Utente findByUsernameAndPassword(String username, String password) {
-		return repository.findByUsernameAndPassword(username, password);
+		return utenteRepository.findByUsernameAndPassword(username, password);
 	}
 
 	@Transactional
@@ -97,7 +112,7 @@ public class UtenteServiceImpl implements UtenteService {
 
 	@Transactional
 	public Utente findByUsername(String username) {
-		return repository.findByUsername(username).orElse(null);
+		return utenteRepository.findByUsername(username).orElse(null);
 	}
 	
 	
@@ -131,9 +146,10 @@ public class UtenteServiceImpl implements UtenteService {
 		else
 			paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 
-		return repository.findAll(specificationCriteria, paging);
+		return utenteRepository.findAll(specificationCriteria, paging);
 	}
 
+	
 
 	
 

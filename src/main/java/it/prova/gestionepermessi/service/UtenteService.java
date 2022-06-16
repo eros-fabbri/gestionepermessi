@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
+import it.prova.gestionepermessi.model.Dipendente;
 import it.prova.gestionepermessi.model.Utente;
 
 
@@ -18,6 +19,8 @@ public interface UtenteService {
 	public void aggiorna(Utente utenteInstance);
 
 	public void inserisciNuovo(Utente utenteInstance);
+	
+	public void inserisciNuovoConDipendente(Utente utenteInstance, Dipendente dipendenteInstance);
 
 	public void rimuovi(Utente utenteInstance);
 

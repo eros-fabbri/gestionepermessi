@@ -41,7 +41,6 @@
       </div>
       <sec:authorize access="isAuthenticated()">
 	      <div class="col-md-3 text-end ">
-	        <p class="navbar-text ">Utente: <sec:authentication property="name"/> (${userInfo.nome } ${userInfo.cognome })
 	      </div>
 	       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           

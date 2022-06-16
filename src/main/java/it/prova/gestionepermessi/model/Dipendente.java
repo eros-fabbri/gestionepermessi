@@ -33,7 +33,7 @@ public class Dipendente {
 	private String nome;
 	@Column(name = "cognome")
 	private String cognome;
-	@Length(min = 16, max=16)
+	//@Length(min = 16, max=16)
 	@Column(name = "cf")
 	private String codFis;
 	@Column(name = "email")

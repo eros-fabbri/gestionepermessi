@@ -12,8 +12,8 @@ import javax.persistence.Table;
 public class Ruolo {
 	
 	public static final String ROLE_ADMIN = "ROLE_ADMIN";
-	public static final String ROLE_BO_USER = "ROLE_CLASSIC_USER";
-	public static final String ROLE_DIPENDENTE_USER = "ROLE_DIPENDETE_USER";
+	public static final String ROLE_BO_USER = "ROLE_BO_USER";
+	public static final String ROLE_DIPENDENTE_USER = "ROLE_DIPENDENTE_USER";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
