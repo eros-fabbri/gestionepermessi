@@ -43,6 +43,7 @@
 				                    <tr>
 			                         	<th>Nome</th>
 				                        <th>Cognome</th>
+				                        <th>Username</th>
 				                        <th>Azioni</th>
 				                    </tr>
 				                </thead>
@@ -61,7 +62,7 @@
 				                </tbody>
 				            </table>
 				        </div>
-				   <a class="btn btn-primary " href="${pageContext.request.contextPath}/film/insert">Aggiungi Dipendente </a>
+				   <a class="btn btn-primary " href="${pageContext.request.contextPath}/admin/insert">Aggiungi Dipendente </a>
 					<!-- end card-body -->			   
 			    </div>
 			<!-- end card -->

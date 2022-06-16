@@ -9,17 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import it.prova.gestionepermessi.model.Dipendente;
 import it.prova.gestionepermessi.model.Ruolo;
+import it.prova.gestionepermessi.model.Sesso;
 import it.prova.gestionepermessi.model.Utente;
 import it.prova.gestionepermessi.service.DipendenteService;
 import it.prova.gestionepermessi.service.RuoloService;
 import it.prova.gestionepermessi.service.UtenteService;
 
-
-
-
 @SpringBootApplication
-public class GestionepermessiApplication implements CommandLineRunner{
-	
+public class GestionepermessiApplication implements CommandLineRunner {
+
 	@Autowired
 	private RuoloService ruoloServiceInstance;
 	@Autowired
@@ -42,35 +40,37 @@ public class GestionepermessiApplication implements CommandLineRunner{
 		}
 
 		// a differenza degli altri progetti cerco solo per username perche' se vado
-		// anche per password ogni volta ne inserisce uno nuovo, inoltre l'encode della password non lo 
-		//faccio qui perche gia lo fa il service di utente, durante inserisciNuovo
+		// anche per password ogni volta ne inserisce uno nuovo, inoltre l'encode della
+		// password non lo
+		// faccio qui perche gia lo fa il service di utente, durante inserisciNuovo
 		if (utenteServiceInstance.findByUsername("admin") == null) {
-			Dipendente dipendente = new Dipendente("paolo", "verdi");
+
+			Dipendente dipendente = new Dipendente("paolo", "verdi", "YMXJWZ75A20C625T", "p.verdi@email.it", new Date(),
+					new Date(), new Date(), Sesso.MASCHIO);
+
 			Utente admin = new Utente("admin", "admin", new Date());
 			admin.setDipendente(dipendente);
 			dipendente.setUtente(admin);
 			admin.getRuoli().add(ruoloServiceInstance.cercaPerDescrizioneECodice("Administrator", "ROLE_ADMIN"));
 			utenteServiceInstance.inserisciNuovoConDipendente(admin, dipendente);
-			//l'inserimento avviene come created ma io voglio attivarlo
+			// l'inserimento avviene come created ma io voglio attivarlo
 			utenteServiceInstance.changeUserAbilitation(admin.getId());
 		}
 
 		if (utenteServiceInstance.findByUsername("backoffice") == null) {
-			Dipendente dipendente = new Dipendente("mario", "rossi");
+			Dipendente dipendente = new Dipendente("mario", "rossi", "YMXJWZ75A20C625T", "m.rossi@email.it", new Date(),
+					new Date(), new Date(), Sesso.MASCHIO);
+
 			Utente boUser = new Utente("backoffice", "backoffice", new Date());
-			
+
 			boUser.setDipendente(dipendente);
 			dipendente.setUtente(boUser);
-			boUser.getRuoli()
-					.add(ruoloServiceInstance.cercaPerDescrizioneECodice("BO User", "ROLE_BO_USER"));
+			boUser.getRuoli().add(ruoloServiceInstance.cercaPerDescrizioneECodice("BO User", "ROLE_BO_USER"));
 			utenteServiceInstance.inserisciNuovoConDipendente(boUser, dipendente);
-			//l'inserimento avviene come created ma io voglio attivarlo
+			// l'inserimento avviene come created ma io voglio attivarlo
 			utenteServiceInstance.changeUserAbilitation(boUser.getId());
 		}
 
-		
-
-	
 	}
 
 }

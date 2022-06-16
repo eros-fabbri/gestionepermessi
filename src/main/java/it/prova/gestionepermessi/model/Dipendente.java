@@ -17,6 +17,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -28,11 +29,12 @@ public class Dipendente {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
+	
 	@Column(name = "nome")
 	private String nome;
 	@Column(name = "cognome")
 	private String cognome;
-	// @Length(min = 16, max=16)
+	@Size(min = 16, max = 16)
 	@Column(name = "cf")
 	private String codFis;
 	@Column(name = "email")
@@ -47,7 +49,6 @@ public class Dipendente {
 	@Enumerated(EnumType.STRING)
 	private Sesso sesso;
 
-	@NotNull
 	@OneToOne
 	@JoinColumn(name = "utente_id", referencedColumnName = "id")
 	private Utente utente;
@@ -61,6 +62,22 @@ public class Dipendente {
 	public Dipendente(String nome, String cognome) {
 		this.nome = nome;
 		this.cognome = cognome;
+	}
+
+	public Dipendente(String nome, String cognome, String codFis, String email, Date dataNascita, Date dataAssunzione,
+			Date dataDimissione, Sesso sesso) {
+
+		
+		this.nome = nome;
+		this.cognome = cognome;
+		this.codFis = codFis;
+		this.email = email;
+		this.dataNascita = dataNascita;
+		this.dataAssunzione = dataAssunzione;
+		this.dataDimissione = dataDimissione;
+		this.sesso = sesso;
+		this.utente = utente;
+		this.richiestaPermesso = richiestaPermesso;
 	}
 
 	public String getNome() {
