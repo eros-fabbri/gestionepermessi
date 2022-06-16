@@ -20,11 +20,10 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
-
 @Entity
 @Table(name = "dipendente", uniqueConstraints = @UniqueConstraint(columnNames = { "utente_id" }))
 public class Dipendente {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -33,7 +32,7 @@ public class Dipendente {
 	private String nome;
 	@Column(name = "cognome")
 	private String cognome;
-	//@Length(min = 16, max=16)
+	// @Length(min = 16, max=16)
 	@Column(name = "cf")
 	private String codFis;
 	@Column(name = "email")
@@ -47,16 +46,21 @@ public class Dipendente {
 	@Column(name = "sesso")
 	@Enumerated(EnumType.STRING)
 	private Sesso sesso;
-	
+
 	@NotNull
 	@OneToOne
 	@JoinColumn(name = "utente_id", referencedColumnName = "id")
 	private Utente utente;
-	
+
 	@OneToMany(mappedBy = "dipendente")
 	private List<RichiestaPermesso> richiestaPermesso = new ArrayList<RichiestaPermesso>();
-	
+
 	public Dipendente() {
+	}
+
+	public Dipendente(String nome, String cognome) {
+		this.nome = nome;
+		this.cognome = cognome;
 	}
 
 	public String getNome() {
@@ -129,6 +133,22 @@ public class Dipendente {
 
 	public void setUtente(Utente utente) {
 		this.utente = utente;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public List<RichiestaPermesso> getRichiestaPermesso() {
+		return richiestaPermesso;
+	}
+
+	public void setRichiestaPermesso(List<RichiestaPermesso> richiestaPermesso) {
+		this.richiestaPermesso = richiestaPermesso;
 	}
 
 }

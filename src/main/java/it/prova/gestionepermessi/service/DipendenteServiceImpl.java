@@ -1,5 +1,7 @@
 package it.prova.gestionepermessi.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +16,15 @@ public class DipendenteServiceImpl implements DipendenteService {
 	DipendenteRepository dipendenteRepository;
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional
 	public void inserisciNuovo(Dipendente dipendenteInstance) {
 		dipendenteRepository.save(dipendenteInstance);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Dipendente> findAll() {
+		return (List<Dipendente>) dipendenteRepository.findAll();
 	}
 
 }

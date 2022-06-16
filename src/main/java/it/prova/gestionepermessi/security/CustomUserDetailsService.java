@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import it.prova.gestionepermessi.model.Utente;
 import it.prova.gestionepermessi.repository.utente.UtenteRepository;
 
-
 @Service
 @Transactional
 public class CustomUserDetailsService implements UserDetailsService {

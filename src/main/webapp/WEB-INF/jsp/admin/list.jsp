@@ -34,31 +34,25 @@
 		  
 		  		<div class='card'>
 				    <div class='card-header'>
-				        <h5>Lista dei risultati</h5> 
+				        <h5>Lista dei dipendenti</h5> 
 				    </div>
 				    <div class='card-body'>
-				    	<a class="btn btn-primary " href="${pageContext.request.contextPath}/film/insert">Add New</a>
-				    
 				        <div class='table-responsive'>
 				            <table class='table table-striped ' >
 				                <thead>
 				                    <tr>
-			                         	<th>Titolo</th>
-				                        <th>Genere</th>
-				                        <th>Data Pubblicazione</th>
-				                        <th>Durata (min.)</th>
+			                         	<th>Nome</th>
+				                        <th>Cognome</th>
 				                        <th>Azioni</th>
 				                    </tr>
 				                </thead>
 				                <tbody>
-				                	<c:forEach items="${film_list_attribute }" var="filmItem">
+				                	<c:forEach items="${dipendenti_list_attribute }" var="dipendenteItem">
 										<tr>
-											<td>${filmItem.titolo }</td>
-											<td>${filmItem.genere }</td>
-											<td><fmt:formatDate type = "date" value = "${filmItem.dataPubblicazione }" /></td>
-											<td>${filmItem.minutiDurata }</td>
+											<td>${dipendenteItem.nome }</td>
+											<td>${dipendenteItem.cognome }</td>			
 											<td>
-												<a class="btn  btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/film/show/${filmItem.id }">Visualizza</a>
+												<a class="btn  btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/film/show/${dipendenteItem.id }">Visualizza</a>
 												<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="laservletpermodificare">Edit</a>
 												<a class="btn btn-outline-danger btn-sm" href="laservletperrimuovere">Delete</a>
 											</td>
@@ -67,7 +61,7 @@
 				                </tbody>
 				            </table>
 				        </div>
-				   
+				   <a class="btn btn-primary " href="${pageContext.request.contextPath}/film/insert">Aggiungi Dipendente </a>
 					<!-- end card-body -->			   
 			    </div>
 			<!-- end card -->
