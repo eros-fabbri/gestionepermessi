@@ -51,9 +51,10 @@
 				                	<c:forEach items="${dipendenti_list_attribute }" var="dipendenteItem">
 										<tr>
 											<td>${dipendenteItem.nome }</td>
-											<td>${dipendenteItem.cognome }</td>			
+											<td>${dipendenteItem.cognome }</td>
+											<td>${dipendenteItem.username }</td>			
 											<td>
-												<a class="btn  btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/film/show/${dipendenteItem.id }">Visualizza</a>
+												<a class="btn  btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/admin/show/${dipendenteItem.id }">Visualizza</a>
 												<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="laservletpermodificare">Edit</a>
 												<a class="btn btn-outline-danger btn-sm" href="laservletperrimuovere">Delete</a>
 											</td>
@@ -62,7 +63,6 @@
 				                </tbody>
 				            </table>
 				        </div>
-				   <a class="btn btn-primary " href="${pageContext.request.contextPath}/admin/insert">Aggiungi Dipendente </a>
 					<!-- end card-body -->			   
 			    </div>
 			<!-- end card -->

@@ -12,5 +12,13 @@ public enum Sesso {
 	public String getAbbreviazione() {
 		return abbreviazione;
 	}
+	
+	//ASSOLUTAMENTE DA CAMBIARE
+	
+	public static Sesso abbreviazioneToSesso(String abbreviazione) {
+		if (abbreviazione == "M")
+			return MASCHIO;
+		return FEMMINA;
+	}
 
 }

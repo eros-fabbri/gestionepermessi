@@ -4,12 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.springframework.data.domain.Sort.Direction;
 
 import it.prova.gestionepermessi.model.Dipendente;
 import it.prova.gestionepermessi.model.Sesso;
@@ -36,8 +32,9 @@ public class DipendenteDTO {
 	@NotNull
 	private RuoloDTO ruolo;
 	@NotNull
-	@Enumerated(EnumType.STRING)
-	private Sesso sesso;
+	private String sesso;
+
+	private String username;
 
 	public String getNome() {
 		return nome;
@@ -103,12 +100,28 @@ public class DipendenteDTO {
 		this.dataDimissione = dataDimissione;
 	}
 
-	public Sesso getSesso() {
+	public String getSesso() {
 		return sesso;
 	}
 
-	public void setSesso(Sesso sesso) {
+	public void setSesso(String sesso) {
 		this.sesso = sesso;
+	}
+
+	public RuoloDTO getRuolo() {
+		return ruolo;
+	}
+
+	public void setRuolo(RuoloDTO ruolo) {
+		this.ruolo = ruolo;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public static List<DipendenteDTO> createDipendenteDTOLIstFromDipendenteList(List<Dipendente> listDipendenti) {
@@ -124,23 +137,34 @@ public class DipendenteDTO {
 		result.setNome(dipendenteInput.getNome());
 		result.setCognome(dipendenteInput.getCognome());
 		result.setId(dipendenteInput.getId());
-		// aggiungere altri set
+		result.setCodFis(dipendenteInput.getCodFis());
+		result.setDataNascita(dipendenteInput.getDataNascita());
+		result.setDataAssunzione(dipendenteInput.getDataAssunzione());
+		result.setDataDimissione(dipendenteInput.getDataNascita());
+		result.setSesso(dipendenteInput.getSesso().getAbbreviazione());
+		result.setEmail(dipendenteInput.getEmail());
+		result.setUsername(dipendenteInput.getUtente().getUsername());
+		
+		if (!dipendenteInput.getUtente().getRuoli().isEmpty()) {
+			
+			
+		}
 		return result;
 
 	}
 
 	public static Dipendente buildDipendenteFromDTO(DipendenteDTO dipendenteDTO) {
 		Dipendente result = new Dipendente();
-		
+
+		result.setId(dipendenteDTO.getId());
 		result.setNome(dipendenteDTO.getNome());
 		result.setCognome(dipendenteDTO.getCognome());
 		result.setCodFis(dipendenteDTO.getCodFis());
 		result.setDataNascita(dipendenteDTO.getDataNascita());
 		result.setDataAssunzione(dipendenteDTO.getDataAssunzione());
 		result.setDataDimissione(dipendenteDTO.getDataNascita());
-		//alcune cose sono da rivedere riguardo al sesso e ai ruoli
-		result.setSesso(dipendenteDTO.getSesso());
-		
+		// alcune cose sono da rivedere riguardo al sesso e ai ruoli
+		result.setSesso(Sesso.abbreviazioneToSesso(dipendenteDTO.getSesso()));
 
 		return result;
 	}

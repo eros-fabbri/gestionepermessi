@@ -27,4 +27,10 @@ public class DipendenteServiceImpl implements DipendenteService {
 		return (List<Dipendente>) dipendenteRepository.findAll();
 	}
 
+	@Transactional(readOnly = true)
+	@Override
+	public Dipendente caricaDipendente(Long id) {
+		return dipendenteRepository.findById(id).orElse(null);
+	}
+
 }
