@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 
 import org.apache.commons.lang3.StringUtils;
@@ -118,29 +119,42 @@ public class UtenteServiceImpl implements UtenteService {
 	
 	@Transactional(readOnly = true)
 	public Page<Utente> findByExample(Utente example, Integer pageNo, Integer pageSize, String sortBy) {
-		// TODO Auto-generated method stub
 		Specification<Utente> specificationCriteria = (root, query, cb) -> {
 
 			List<Predicate> predicates = new ArrayList<Predicate>();
+
+			// faccio fetch del dipendente e ruoli a prescindere
+			root.fetch("dipendente", JoinType.INNER);
+			root.fetch("ruoli", JoinType.LEFT);
 
 			if (StringUtils.isNotEmpty(example.getUsername()))
 				predicates
 						.add(cb.like(cb.upper(root.get("username")), "%" + example.getUsername().toUpperCase() + "%"));
 
+			if (example.getDipendente() != null && StringUtils.isNotEmpty(example.getDipendente().getNome()))
+				predicates.add(cb.like(cb.upper(root.join("dipendente", JoinType.INNER).get("nome")),
+						"%" + example.getDipendente().getNome().toUpperCase() + "%"));
+
+			if (example.getDipendente() != null && StringUtils.isNotEmpty(example.getDipendente().getCognome()))
+				predicates.add(cb.like(cb.upper(root.join("dipendente", JoinType.INNER).get("cognome")),
+						"%" + example.getDipendente().getCognome().toUpperCase() + "%"));
+
+			if (example.getDipendente() != null && StringUtils.isNotEmpty(example.getDipendente().getCodFis()))
+				predicates.add(cb.like(cb.upper(root.join("dipendente", JoinType.INNER).get("codFis")),
+						"%" + example.getDipendente().getCodFis().toUpperCase() + "%"));
+
 			if (example.getStato() != null)
 				predicates.add(cb.equal(root.get("stato"), example.getStato()));
 
-			if (example.getDateCreated() != null)
-				predicates.add(cb.greaterThanOrEqualTo(root.get("dateCreated"), example.getDateCreated()));
-
-			if (!example.getRuoli().isEmpty()) {
+			if (example.getRuoli() != null && !example.getRuoli().isEmpty())
 				predicates.add(root.join("ruoli").in(example.getRuoli()));
-			}
-			  /*DA COTROLLARE L'EVENTUALE IMPLICAZIONE CON DIPENDENTE*/
+
+			query.distinct(true);
 			return cb.and(predicates.toArray(new Predicate[predicates.size()]));
 		};
 
 		Pageable paging = null;
+		// se non passo parametri di paginazione non ne tengo conto
 		if (pageSize == null || pageSize < 10)
 			paging = Pageable.unpaged();
 		else

@@ -16,8 +16,8 @@
 		      <li class="nav-item dropdown">
 		        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestione Utenze</a>
 		        <div class="dropdown-menu" aria-labelledby="dropdown01">
-		          <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/search">Ricerca Dipendenti</a>
-		          <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/insert">Inserisci Dipendente</a>
+		          <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/dipendente/search">Ricerca Dipendenti</a>
+		          <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/utente/search">Ricerca Utenti</a>
 		        </div>
 		      </li>
 		   </sec:authorize>

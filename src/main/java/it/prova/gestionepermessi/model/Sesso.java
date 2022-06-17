@@ -13,7 +13,7 @@ public enum Sesso {
 		return abbreviazione;
 	}
 	
-	//ASSOLUTAMENTE DA CAMBIARE
+	//---------------------------------------
 	
 	public static Sesso abbreviazioneToSesso(String abbreviazione) {
 		if (abbreviazione == "M")

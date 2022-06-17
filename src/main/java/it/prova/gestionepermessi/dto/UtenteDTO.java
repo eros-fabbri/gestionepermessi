@@ -35,7 +35,7 @@ public class UtenteDTO {
 
 	private Long[] ruoliIds;
 
-	private List<RuoloDTO> ruoli;
+	private List<RuoloDTO> ruoli = new ArrayList<RuoloDTO>();
 
 	public UtenteDTO() {
 	}
@@ -122,9 +122,12 @@ public class UtenteDTO {
 	public static UtenteDTO buildUtenteDTOFromModel(Utente utenteModel) {
 		UtenteDTO result = new UtenteDTO(utenteModel.getId(), utenteModel.getUsername(), utenteModel.getStato(), utenteModel.getDateCreated());
 
-		if (!utenteModel.getRuoli().isEmpty())
+		if (!utenteModel.getRuoli().isEmpty()) {
 			result.ruoliIds = utenteModel.getRuoli().stream().map(r -> r.getId()).collect(Collectors.toList())
 					.toArray(new Long[] {});
+			utenteModel.getRuoli().forEach(r -> result.getRuoli().add(RuoloDTO.buildRuoloDTOFromModel(r)));
+		}
+			
 
 		return result;
 	}

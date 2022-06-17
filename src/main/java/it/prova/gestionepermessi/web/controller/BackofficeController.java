@@ -20,7 +20,7 @@ import it.prova.gestionepermessi.service.UtenteService;
 import it.prova.gestionepermessi.utility.UtenteUtility;
 
 @Controller
-@RequestMapping(value = "/backoffice")
+@RequestMapping("/backoffice")
 public class BackofficeController {
 	
 
@@ -29,7 +29,7 @@ public class BackofficeController {
 	@Autowired
 	UtenteService utenteService;
 	
-	@GetMapping(value = "/insert")
+	@GetMapping("/insert")
 	public String insert(Model model) {
 		model.addAttribute("insert_dipendente_attr", new DipendenteDTO());
 		return "backoffice/insert";

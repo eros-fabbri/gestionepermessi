@@ -12,4 +12,6 @@ public interface DipendenteService {
 	
 	public Dipendente caricaDipendente(Long id);
 	
+	public List<Dipendente> findByExample(Dipendente example);
+	
 }

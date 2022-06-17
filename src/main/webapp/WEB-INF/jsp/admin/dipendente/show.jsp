@@ -3,13 +3,13 @@
 <html lang="it" class="h-100">
 <head>
 <!-- Common imports in pages -->
-<jsp:include page="../header.jsp" />
+<jsp:include page="../../header.jsp" />
 <title>Visualizza dipendente</title>
 
 </head>
 <body class="d-flex flex-column h-100">
 	<!-- Fixed navbar -->
-	<jsp:include page="../navbar.jsp" />
+	<jsp:include page="../../navbar.jsp" />
 
 	<!-- Begin page content -->
 	<main class="flex-shrink-0">
@@ -64,10 +64,6 @@
 								value="${show_dipendente_attr.dataDimissione}" />
 						</dd>
 					</dl>
-					<dl class="row">
-						<dt class="col-sm-3 text-right">Username:</dt>
-						<dd class="col-sm-9">${show_dipendente_attr.username}</dd>
-					</dl>
 					
 					<!-- end card body -->
 				</div>
@@ -85,7 +81,7 @@
 		</div>
 
 	</main>
-	<jsp:include page="../footer.jsp" />
+	<jsp:include page="../../footer.jsp" />
 
 </body>
 </html>

@@ -34,25 +34,23 @@
 		  
 		  		<div class='card'>
 				    <div class='card-header'>
-				        <h5>Lista dei dipendenti</h5> 
+				        <h5>Lista utenti</h5> 
 				    </div>
 				    <div class='card-body'>
 				        <div class='table-responsive'>
 				            <table class='table table-striped ' >
 				                <thead>
 				                    <tr>
-			                         	<th>Nome</th>
-				                        <th>Cognome</th>
+			                         	<th>Username</th>
 				                        <th>Azioni</th>
 				                    </tr>
 				                </thead>
 				                <tbody>
-				                	<c:forEach items="${dipendenti_list_attribute }" var="dipendenteItem">
+				                	<c:forEach items="${utenti_list_attribute }" var="utenteItem">
 										<tr>
-											<td>${dipendenteItem.nome }</td>
-											<td>${dipendenteItem.cognome }</td>			
+											<td>${utenteItem.username }</td>			
 											<td>
-												<a class="btn  btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/admin/dipendente/show/${dipendenteItem.id }">Visualizza</a>
+												<a class="btn  btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/admin/utente/show/${utenteItem.id }">Visualizza</a>
 											</td>
 										</tr>
 									</c:forEach>

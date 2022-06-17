@@ -67,9 +67,11 @@
 						Bootstrap.</p>
 					<sec:authorize access="hasRole('ADMIN')">
 						<a class="btn btn-primary btn-lg"
-							href="${pageContext.request.contextPath}/admin/list">Gestione
-							utenze</a>
-						
+							href="${pageContext.request.contextPath}/admin/dipendente">Gestione
+							Dipendenti</a>
+						<a class="btn btn-primary btn-lg"
+							href="${pageContext.request.contextPath}/admin/utente">Gestione
+							Utenti</a>
 					</sec:authorize>
 				</div>
 			</div>

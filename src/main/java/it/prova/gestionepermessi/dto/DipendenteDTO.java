@@ -34,8 +34,6 @@ public class DipendenteDTO {
 	@NotNull
 	private String sesso;
 
-	private String username;
-
 	public String getNome() {
 		return nome;
 	}
@@ -116,17 +114,23 @@ public class DipendenteDTO {
 		this.ruolo = ruolo;
 	}
 
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
 	public static List<DipendenteDTO> createDipendenteDTOLIstFromDipendenteList(List<Dipendente> listDipendenti) {
 		List<DipendenteDTO> result = new ArrayList<>();
 		listDipendenti.forEach(d -> result.add(DipendenteDTO.buildDTOFromDipendente(d)));
+		return result;
+	}
+	
+	public Dipendente buildDipendenteModel() {
+		Dipendente result = new Dipendente();
+		result.setId(this.id);
+		result.setNome(this.nome);
+		result.setCognome(this.cognome);
+		result.setCodFis(this.codFis);
+		result.setDataNascita(this.dataNascita);
+		result.setDataAssunzione(this.dataAssunzione);
+		result.setDataDimissione(this.dataDimissione);
+		// alcune cose sono da rivedere riguardo al sesso e ai ruoli
+		result.setSesso(Sesso.abbreviazioneToSesso(this.sesso));
 		return result;
 	}
 
@@ -143,7 +147,6 @@ public class DipendenteDTO {
 		result.setDataDimissione(dipendenteInput.getDataNascita());
 		result.setSesso(dipendenteInput.getSesso().getAbbreviazione());
 		result.setEmail(dipendenteInput.getEmail());
-		result.setUsername(dipendenteInput.getUtente().getUsername());
 		
 		if (!dipendenteInput.getUtente().getRuoli().isEmpty()) {
 			
@@ -168,4 +171,6 @@ public class DipendenteDTO {
 
 		return result;
 	}
+	
+	
 }
