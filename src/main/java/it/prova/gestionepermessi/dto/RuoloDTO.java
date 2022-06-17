@@ -47,6 +47,12 @@ public class RuoloDTO {
 	public static RuoloDTO buildRuoloDTOFromModel(Ruolo ruoloModel) {
 		return new RuoloDTO(ruoloModel.getId(), ruoloModel.getDescrizione(), ruoloModel.getCodice());
 	}
+	
+	public static Ruolo buildRuoloFromDTO(RuoloDTO ruoloDTO) {
+		
+		return new Ruolo(ruoloDTO.getId(), ruoloDTO.getDescrizione(), ruoloDTO.getCodice());
+		
+	}
 
 	public static List<RuoloDTO> createRuoloDTOListFromModelSet(Set<Ruolo> modelListInput) {
 		return modelListInput.stream().map(ruoloEntity -> {

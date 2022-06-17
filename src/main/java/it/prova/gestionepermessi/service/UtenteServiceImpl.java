@@ -1,8 +1,10 @@
 package it.prova.gestionepermessi.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
@@ -18,7 +20,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.prova.gestionepermessi.dto.UtenteSearchDTO;
 import it.prova.gestionepermessi.model.Dipendente;
+import it.prova.gestionepermessi.model.Ruolo;
 import it.prova.gestionepermessi.model.StatoUtente;
 import it.prova.gestionepermessi.model.Utente;
 import it.prova.gestionepermessi.repository.dipendente.DipendenteRepository;
@@ -34,7 +38,6 @@ public class UtenteServiceImpl implements UtenteService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-
 	@Transactional(readOnly = true)
 	public List<Utente> listAllUtenti() {
 		return (List<Utente>) utenteRepository.findAll();
@@ -44,7 +47,7 @@ public class UtenteServiceImpl implements UtenteService {
 	public Utente caricaSingoloUtente(Long id) {
 		return utenteRepository.findById(id).orElse(null);
 	}
-	
+
 	@Transactional(readOnly = true)
 	public Utente caricaSingoloUtenteConRuoli(Long id) {
 		return utenteRepository.findByIdConRuoli(id).orElse(null);
@@ -52,9 +55,9 @@ public class UtenteServiceImpl implements UtenteService {
 
 	@Transactional
 	public void aggiorna(Utente utenteInstance) {
-		//deve aggiornare solo nome, cognome, username, ruoli
+		// deve aggiornare solo nome, cognome, username, ruoli
 		Utente utenteReloaded = utenteRepository.findById(utenteInstance.getId()).orElse(null);
-		if(utenteReloaded == null)
+		if (utenteReloaded == null)
 			throw new RuntimeException("Elemento non trovato");
 		utenteReloaded.setDipendente(utenteInstance.getDipendente());
 		utenteReloaded.setUsername(utenteInstance.getUsername());
@@ -65,31 +68,29 @@ public class UtenteServiceImpl implements UtenteService {
 	@Transactional
 	public void inserisciNuovo(Utente utenteInstance) {
 		utenteInstance.setStato(StatoUtente.CREATO);
-		utenteInstance.setPassword(passwordEncoder.encode(utenteInstance.getPassword())); 
+		utenteInstance.setPassword(passwordEncoder.encode(utenteInstance.getPassword()));
 		utenteInstance.setDateCreated(new Date());
 		utenteRepository.save(utenteInstance);
 	}
-	
+
 	@Transactional
 	public void inserisciNuovoConDipendente(Utente utenteInstance, Dipendente dipendenteInstance) {
 		utenteInstance.setStato(StatoUtente.CREATO);
-		utenteInstance.setPassword(passwordEncoder.encode(utenteInstance.getPassword())); 
+		utenteInstance.setPassword(passwordEncoder.encode(utenteInstance.getPassword()));
 		utenteInstance.setDateCreated(new Date());
 		utenteRepository.save(utenteInstance);
 		dipendenteRepository.save(dipendenteInstance);
-		
-	}
 
+	}
 
 	@Transactional
 	public void rimuovi(Utente utenteInstance) {
 		utenteRepository.delete(utenteInstance);
 	}
 
-	
 	@Transactional(readOnly = true)
 	public Utente eseguiAccesso(String username, String password) {
-		return utenteRepository.findByUsernameAndPasswordAndStato(username, password,StatoUtente.ATTIVO);
+		return utenteRepository.findByUsernameAndPasswordAndStato(username, password, StatoUtente.ATTIVO);
 	}
 
 	@Override
@@ -100,14 +101,14 @@ public class UtenteServiceImpl implements UtenteService {
 	@Transactional
 	public void changeUserAbilitation(Long utenteInstanceId) {
 		Utente utenteInstance = caricaSingoloUtente(utenteInstanceId);
-		if(utenteInstance == null)
+		if (utenteInstance == null)
 			throw new RuntimeException("Elemento non trovato.");
-		
-		if(utenteInstance.getStato() == null || utenteInstance.getStato().equals(StatoUtente.CREATO))
+
+		if (utenteInstance.getStato() == null || utenteInstance.getStato().equals(StatoUtente.CREATO))
 			utenteInstance.setStato(StatoUtente.ATTIVO);
-		else if(utenteInstance.getStato().equals(StatoUtente.ATTIVO))
+		else if (utenteInstance.getStato().equals(StatoUtente.ATTIVO))
 			utenteInstance.setStato(StatoUtente.DISABILITATO);
-		else if(utenteInstance.getStato().equals(StatoUtente.DISABILITATO))
+		else if (utenteInstance.getStato().equals(StatoUtente.DISABILITATO))
 			utenteInstance.setStato(StatoUtente.ATTIVO);
 	}
 
@@ -115,10 +116,9 @@ public class UtenteServiceImpl implements UtenteService {
 	public Utente findByUsername(String username) {
 		return utenteRepository.findByUsername(username).orElse(null);
 	}
-	
-	
+
 	@Transactional(readOnly = true)
-	public Page<Utente> findByExample(Utente example, Integer pageNo, Integer pageSize, String sortBy) {
+	public Page<Utente> findByExample(UtenteSearchDTO example, Integer pageNo, Integer pageSize, String sortBy) {
 		Specification<Utente> specificationCriteria = (root, query, cb) -> {
 
 			List<Predicate> predicates = new ArrayList<Predicate>();
@@ -131,23 +131,20 @@ public class UtenteServiceImpl implements UtenteService {
 				predicates
 						.add(cb.like(cb.upper(root.get("username")), "%" + example.getUsername().toUpperCase() + "%"));
 
-			if (example.getDipendente() != null && StringUtils.isNotEmpty(example.getDipendente().getNome()))
+			if (example.getNome() != null && StringUtils.isNotEmpty(example.getNome()))
 				predicates.add(cb.like(cb.upper(root.join("dipendente", JoinType.INNER).get("nome")),
-						"%" + example.getDipendente().getNome().toUpperCase() + "%"));
+						"%" + example.getNome().toUpperCase() + "%"));
 
-			if (example.getDipendente() != null && StringUtils.isNotEmpty(example.getDipendente().getCognome()))
+			if (example.getCognome() != null && StringUtils.isNotEmpty(example.getCognome()))
 				predicates.add(cb.like(cb.upper(root.join("dipendente", JoinType.INNER).get("cognome")),
-						"%" + example.getDipendente().getCognome().toUpperCase() + "%"));
-
-			if (example.getDipendente() != null && StringUtils.isNotEmpty(example.getDipendente().getCodFis()))
-				predicates.add(cb.like(cb.upper(root.join("dipendente", JoinType.INNER).get("codFis")),
-						"%" + example.getDipendente().getCodFis().toUpperCase() + "%"));
+						"%" + example.getCognome().toUpperCase() + "%"));
 
 			if (example.getStato() != null)
 				predicates.add(cb.equal(root.get("stato"), example.getStato()));
 
-			if (example.getRuoli() != null && !example.getRuoli().isEmpty())
-				predicates.add(root.join("ruoli").in(example.getRuoli()));
+			if (example.getRuoliIds() != null && example.getRuoliIds().length > 0)
+				predicates.add(root.join("ruoli").in(Arrays.asList(example.getRuoliIds()).stream()
+						.map(id -> new Ruolo(id)).collect(Collectors.toSet())));
 
 			query.distinct(true);
 			return cb.and(predicates.toArray(new Predicate[predicates.size()]));
@@ -156,15 +153,11 @@ public class UtenteServiceImpl implements UtenteService {
 		Pageable paging = null;
 		// se non passo parametri di paginazione non ne tengo conto
 		if (pageSize == null || pageSize < 10)
-			paging = Pageable.unpaged();
+		paging = Pageable.unpaged();
 		else
-			paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+		paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 
 		return utenteRepository.findAll(specificationCriteria, paging);
-	}
-
-	
-
-	
+		}
 
 }

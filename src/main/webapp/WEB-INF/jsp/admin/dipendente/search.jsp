@@ -51,7 +51,7 @@
 				<div class='card-body'>
 
 					<form:form method="post" modelAttribute="search_dipendente_attr"
-						action="search" novalidate="novalidate" class="row g-3">
+						action="list" novalidate="novalidate" class="row g-3">
 
 						<div class="col-md-6">
 							<label for="nome" class="form-label">Nome</label>

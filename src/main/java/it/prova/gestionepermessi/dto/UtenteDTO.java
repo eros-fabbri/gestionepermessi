@@ -15,29 +15,32 @@ import it.prova.gestionepermessi.validation.ValidationWithPassword;
 
 public class UtenteDTO {
 
-	private Long id;
+	protected Long id;
 
 	@NotBlank(message = "{username.notblank}", groups = { ValidationWithPassword.class, ValidationNoPassword.class })
 	@Size(min = 3, max = 15, message = "Il valore inserito '${validatedValue}' deve essere lungo tra {min} e {max} caratteri")
-	private String username;
+	protected String username;
 
 	@NotBlank(message = "{password.notblank}", groups = ValidationWithPassword.class)
 	@Size(min = 8, max = 15, message = "Il valore inserito deve essere lungo tra {min} e {max} caratteri")
-	private String password;
+	protected String password;
 
-	private String confermaPassword;
+	protected String confermaPassword;
 
-	private Date dateCreated;
+	protected Date dateCreated;
 	
-	private DipendenteDTO dipendenteDTO;
+	protected DipendenteDTO dipendenteDTO;
 
-	private StatoUtente stato;
+	protected StatoUtente stato;
 
-	private Long[] ruoliIds;
+	protected Long[] ruoliIds;
 
-	private List<RuoloDTO> ruoli = new ArrayList<RuoloDTO>();
+	protected List<RuoloDTO> ruoli = new ArrayList<RuoloDTO>();
 
 	public UtenteDTO() {
+	}
+	public UtenteDTO(DipendenteDTO dipendenteDTO) {
+		this.dipendenteDTO = dipendenteDTO;
 	}
 
 	public UtenteDTO(Long id, String username, StatoUtente stato, Date dateCreated) {
@@ -106,7 +109,10 @@ public class UtenteDTO {
 
 	public Utente buildUtenteModel(boolean includeIdRoles) {
 		Utente result = new Utente(this.id, this.username, this.password, this.stato);
-		//aggiunere ruoli
+		if (includeIdRoles) {
+			//aggiunere ruoli
+		}
+		result.setDipendente(this.dipendenteDTO.buildDipendenteModel());
 		return result;
 	}
 

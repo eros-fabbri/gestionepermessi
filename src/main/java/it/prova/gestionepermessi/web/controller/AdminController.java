@@ -10,24 +10,29 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import it.prova.gestionepermessi.dto.DipendenteDTO;
+import it.prova.gestionepermessi.dto.RuoloDTO;
 import it.prova.gestionepermessi.dto.UtenteDTO;
+import it.prova.gestionepermessi.dto.UtenteDipendenteDTO;
+import it.prova.gestionepermessi.dto.UtenteSearchDTO;
 import it.prova.gestionepermessi.model.Dipendente;
 import it.prova.gestionepermessi.model.Utente;
 import it.prova.gestionepermessi.service.DipendenteService;
+import it.prova.gestionepermessi.service.RuoloService;
 import it.prova.gestionepermessi.service.UtenteService;
-import it.prova.raccoltafilmspringmvc.dto.FilmDTO;
-import it.prova.raccoltafilmspringmvc.model.Film;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 
 	@Autowired
-	DipendenteService dipendenteService; 
+	DipendenteService dipendenteService;
 	@Autowired
 	UtenteService utenteService;
+	@Autowired
+	RuoloService ruoloService;
 
 	@GetMapping("/dipendente")
 	public ModelAndView listAllDipendenti() {
@@ -37,7 +42,7 @@ public class AdminController {
 		mv.setViewName("admin/dipendente/list");
 		return mv;
 	}
-	
+
 	@GetMapping("/utente")
 	public ModelAndView listAllUtenti() {
 		ModelAndView mv = new ModelAndView();
@@ -47,7 +52,6 @@ public class AdminController {
 		return mv;
 	}
 
-	
 	@GetMapping("/dipendente/show/{idDipendente}")
 	public String showDipendente(@PathVariable(required = true) Long idDipendente, Model model) {
 
@@ -55,7 +59,7 @@ public class AdminController {
 				DipendenteDTO.buildDTOFromDipendente(dipendenteService.caricaDipendente(idDipendente)));
 		return "admin/dipendente/show";
 	}
-	
+
 	@GetMapping("/utente/show/{idUtente}")
 	public String showUtente(@PathVariable(required = true) Long idUtente, Model model) {
 
@@ -63,17 +67,35 @@ public class AdminController {
 				UtenteDTO.buildUtenteDTOFromModel(utenteService.caricaSingoloUtente(idUtente)));
 		return "admin/utente/show";
 	}
-	
+
 	@GetMapping("/dipendente/search")
 	public String searchDipendente(Model model) {
 		model.addAttribute("search_dipendente_attr", new DipendenteDTO());
 		return "admin/dipendente/search";
 	}
-	
-	@PostMapping("/list")
-	public String listFilms(DipendenteDTO dipendenteExample, ModelMap model) {
-		List<Dipendente> dipendenti = dipendenteService.findByExample(dipendenteExample.buildDipendenteModel());
-		model.addAttribute("film_list_attribute", DipendenteDTO.createDipendenteDTOLIstFromDipendenteList(dipendenti));
-		return "film/list";
+
+	@PostMapping("/dipendente/list")
+	public String listDipendente(DipendenteDTO dipendenteExample, ModelMap model) {
+		model.addAttribute("dipendenti_list_attribute", DipendenteDTO.createDipendenteDTOLIstFromDipendenteList(
+				dipendenteService.findByExample(dipendenteExample.buildDipendenteModel())));
+		return "admin/dipendente/list";
+	}
+
+	@GetMapping("/utente/search")
+	public String searchUtente(Model model) {
+		model.addAttribute("search_utente_attr", new UtenteDipendenteDTO());
+		model.addAttribute("ruoli_totali_attr", RuoloDTO.createRuoloDTOListFromModelList(ruoloService.listAll()));
+		return "admin/utente/search";
+	}
+
+	@PostMapping("/utente/list")
+	public String listUtenti(UtenteSearchDTO utenteExample, @RequestParam(defaultValue = "0") Integer pageNo,
+	@RequestParam(defaultValue = "10") Integer pageSize, @RequestParam(defaultValue = "id") String sortBy,
+	ModelMap model) {
+
+	List<Utente> utenti = utenteService.findByExample(utenteExample, pageNo, pageSize, sortBy).getContent();
+
+	model.addAttribute("utenti_list_attribute", UtenteDTO.buildListUtenteDTOfromUtenteList(utenti));
+	return "admin/utente/list";
 	}
 }

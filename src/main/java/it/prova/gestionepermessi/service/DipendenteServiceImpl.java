@@ -75,10 +75,6 @@ public class DipendenteServiceImpl implements DipendenteService {
 			whereClauses.add("d.dataDimissione >= :dataDimissione ");
 			paramaterMap.put("dataDimissione", example.getDataDimissione());
 		}
-		if (example.getSesso() != null) {
-			whereClauses.add(" d.sesso =:sesso ");
-			paramaterMap.put("sesso", example.getSesso());
-		}
 
 		queryBuilder.append(!whereClauses.isEmpty() ? " and " : "");
 		queryBuilder.append(StringUtils.join(whereClauses, " and "));
