@@ -55,7 +55,7 @@ public class BackofficeController {
 	}
 
 	@PostMapping("/dipendente/save")
-	public String saveFilm(@Valid @ModelAttribute("insert_dipendente_attr") DipendenteDTO dipendenteDTO,
+	public String saveDipendente(@Valid @ModelAttribute("insert_dipendente_attr") DipendenteDTO dipendenteDTO,
 			BindingResult result, RedirectAttributes redirectAttrs, HttpServletRequest request) {
 
 		if (result.hasErrors()) {

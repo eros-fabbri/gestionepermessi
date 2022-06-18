@@ -13,6 +13,38 @@
 
 <body class="d-flex flex-column h-100">
 
+	<div class="modal fade" id="abilitamodal" tabindex="-1" role="dialog"
+		aria-labelledby="abilitamodal" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Confermare l'abilitazione dell'utente?</h5>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="closeabilita" class="btn btn-secondary"
+						data-dismiss="modal">Annulla</button>
+					<button type="button" id="confermaabilita" class="btn btn-primary">Conferma</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="disabilitamodal" tabindex="-1" role="dialog"
+		aria-labelledby="disabilitamodal" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Confermare la disabilitazione dell'utente?</h5>
+				</div>>
+				<div class="modal-footer">
+					<button type="button" id="closedisabilita" class="btn btn-secondary"
+						data-dismiss="modal">Annulla</button>
+					<button type="button" id="confermadisabilita" class="btn btn-primary">Conferma</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
 	<!-- Fixed navbar -->
 	<jsp:include page="../../navbar.jsp"></jsp:include>
 
@@ -59,12 +91,49 @@
 											href="${pageContext.request.contextPath}/admin/utente/show/${utenteItem.id }">Visualizza</a>
 											<a class="btn  btn-sm btn-outline-danger"
 											href="${pageContext.request.contextPath}/admin/utente/edit/${utenteItem.id }">Modifica
-												Permessi</a> <a  data-toggle="modal" data-target="#testModal" class="btn  btn-sm btn-outline-warning"
-											id="button1">Disabilita Utente</a></td>
+												Permessi</a> 
+										<c:if test="${utenteItem.isAttivo()}">
+										<a data-toggle="modal" data-utenteId="${utenteItem.id }"
+											class="btn disabilita btn-sm btn-outline-warning" >Disabilita
+												Utente</a>		
+										</c:if>
+										<c:if test="${!utenteItem.isAttivo()}">
+										<a data-toggle="modal" data-utenteId="${utenteItem.id }"
+											class="btn abilita btn-sm btn-outline-success">Abilita
+												Utente</a>		
+										</c:if>
+										</td>
 									</tr>
 								</c:forEach>
 							</tbody>
 						</table>
+						<script>
+						var id = 0;
+						$(document).ready(function(){
+							  $('.disabilita').click(function(){
+								  id = $(this).data('utenteid');
+							    $('#disabilitamodal').modal('show');
+							   });
+							  $('.abilita').click(function(){
+								    id = $(this).data('utenteid');
+								    $('#abilitamodal').modal('show');
+								   });
+							  $('#closedisabilita').click(function(){
+								    $('#disabilitamodal').modal('hide');
+								   });
+							  $('#closeabilita').click(function(){
+								    $('#abilitamodal').modal('hide');
+								   });
+							  $('#confermaabilita').click(function(){
+								   //$.get("${pageContext.request.contextPath}/admin/utente/toggleabilitation/"+id);
+								   window.location.href="${pageContext.request.contextPath}/admin/utente/toggleabilitation/"+id;
+							  });
+							  $('#confermadisabilita').click(function(){
+								   //$.get("${pageContext.request.contextPath}/admin/utente/toggleabilitation/"+id);
+								   window.location.href="${pageContext.request.contextPath}/admin/utente/toggleabilitation/"+id;
+							  });
+							});
+						</script>
 					</div>
 					<!-- end card-body -->
 				</div>

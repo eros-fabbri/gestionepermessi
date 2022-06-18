@@ -128,5 +128,12 @@ public class AdminController {
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
 		return "redirect:/utente/list";
 	}
+	
+	@GetMapping("/utente/toggleabilitation/{idUtente}")
+	public String abilitaUtente(@PathVariable(required = true) Long idUtente) {
+		utenteService.changeUserAbilitation(idUtente);
+		return "redirect:/admin/utente";
+	}
+	
 
 }

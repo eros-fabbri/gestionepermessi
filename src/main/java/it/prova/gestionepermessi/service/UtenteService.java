@@ -15,21 +15,21 @@ public interface UtenteService {
 
 	public Utente caricaSingoloUtente(Long id);
 	
-	public Utente caricaSingoloUtenteConRuoli(Long id);
+	//public Utente caricaSingoloUtenteConRuoli(Long id);
 
 	public void aggiorna(Utente utenteInstance);
 
-	public void inserisciNuovo(Utente utenteInstance); //inutilizzato
+	//public void inserisciNuovo(Utente utenteInstance); 
 	
 	public void inserisciNuovoConDipendente(Utente utenteInstance, Dipendente dipendenteInstance);
 
-	public void rimuovi(Utente utenteInstance); //inutilizzato
+	//public void rimuovi(Utente utenteInstance); 
 
 	public Page<Utente> findByExample(UtenteSearchDTO example, Integer pageNo, Integer pageSize, String sortBy);
 	
-	public Utente findByUsernameAndPassword(String username, String password); //inutilizzato
+	public Utente findByUsernameAndPassword(String username, String password); 
 	
-	public Utente eseguiAccesso(String username, String password); //inutilizzato
+	//public Utente eseguiAccesso(String username, String password); 
 	
 	public void changeUserAbilitation(Long utenteInstanceId);
 	

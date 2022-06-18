@@ -48,18 +48,12 @@ public class RuoloDTO {
 		return new RuoloDTO(ruoloModel.getId(), ruoloModel.getDescrizione(), ruoloModel.getCodice());
 	}
 	
-	public static Ruolo buildRuoloFromDTO(RuoloDTO ruoloDTO) {
-		
-		return new Ruolo(ruoloDTO.getId(), ruoloDTO.getDescrizione(), ruoloDTO.getCodice());
-		
-	}
+//	public static Ruolo buildRuoloFromDTO(RuoloDTO ruoloDTO) {
+//		
+//		return new Ruolo(ruoloDTO.getId(), ruoloDTO.getDescrizione(), ruoloDTO.getCodice());
+//		
+//	}
 
-	public static List<RuoloDTO> createRuoloDTOListFromModelSet(Set<Ruolo> modelListInput) {
-		return modelListInput.stream().map(ruoloEntity -> {
-			return RuoloDTO.buildRuoloDTOFromModel(ruoloEntity);
-		}).collect(Collectors.toList());
-	}
-	
 	public static List<RuoloDTO> createRuoloDTOListFromModelList(List<Ruolo> modelListInput) {
 		return modelListInput.stream().map(ruoloEntity -> {
 			return RuoloDTO.buildRuoloDTOFromModel(ruoloEntity);
