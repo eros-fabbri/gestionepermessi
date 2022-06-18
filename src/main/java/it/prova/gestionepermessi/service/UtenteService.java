@@ -36,5 +36,7 @@ public interface UtenteService {
 	public Utente findByUsername(String username);
 	
 	public void aggiornaEdit(Utente utenteInstance); 
+	
+	public Utente findByDipendente(Dipendente dipendente);
 
 }

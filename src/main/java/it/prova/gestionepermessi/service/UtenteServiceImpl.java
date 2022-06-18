@@ -167,5 +167,9 @@ public class UtenteServiceImpl implements UtenteService {
 		utenteReloaded.setRuoli(utenteInstance.getRuoli());
 		utenteRepository.save(utenteReloaded);
 	}
+	@Transactional
+	public Utente findByDipendente(Dipendente dipendente) {
+		return utenteRepository.findUtenteByDipendenteEquals(dipendente);
+	}
 
 }

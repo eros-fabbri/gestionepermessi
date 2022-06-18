@@ -53,6 +53,7 @@
 											<td>${dipendenteItem.cognome }</td>			
 											<td>
 												<a class="btn  btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/backoffice/dipendente/show/${dipendenteItem.id }">Visualizza</a>
+												<a class="btn  btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/backoffice/dipendente/edit/${dipendenteItem.id }">Modifica</a>
 											</td>
 										</tr>
 									</c:forEach>

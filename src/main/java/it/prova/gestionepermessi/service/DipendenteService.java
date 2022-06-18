@@ -16,4 +16,6 @@ public interface DipendenteService {
 	
 	public List<Dipendente> findByExample(Dipendente example);
 	
+	public void aggiorna(Dipendente dipendenteInstance);
+	
 }

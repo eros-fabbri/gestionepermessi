@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import it.prova.gestionepermessi.model.Dipendente;
 import it.prova.gestionepermessi.repository.dipendente.DipendenteRepository;
+import it.prova.gestionepermessi.repository.utente.UtenteRepository;
+
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -22,13 +24,22 @@ public class DipendenteServiceImpl implements DipendenteService {
 
 	@Autowired
 	DipendenteRepository dipendenteRepository;
-	
+	@Autowired
+	UtenteRepository utenteRepository;
+
 	@PersistenceContext
 	EntityManager entityManager;
-	
+
 	@Override
 	@Transactional
 	public void inserisciNuovo(Dipendente dipendenteInstance) {
+		dipendenteRepository.save(dipendenteInstance);
+	}
+
+	@Override
+	@Transactional
+	public void aggiorna(Dipendente dipendenteInstance) {
+	
 		dipendenteRepository.save(dipendenteInstance);
 	}
 
@@ -90,8 +101,8 @@ public class DipendenteServiceImpl implements DipendenteService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<Dipendente> findAllEagerUtente() {
-		
-		return  dipendenteRepository.findAllDipendenteFilmEager();
+
+		return dipendenteRepository.findAllDipendenteFilmEager();
 	}
 
 }

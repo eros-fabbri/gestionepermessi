@@ -95,5 +95,25 @@ public class BackofficeController {
 				dipendenteService.findByExample(dipendenteExample.buildDipendenteModel())));
 		return "backoffice/dipendente/list";
 	}
+	
+	@GetMapping("/dipendente/edit/{idDipendente}")
+	public String editDipendente(@PathVariable(required = true) Long idDipendente, Model model) {
 
+		model.addAttribute("edit_dipendente_attr",
+				DipendenteDTO.buildDTOFromDipendente(dipendenteService.caricaDipendente(idDipendente)));
+		return "backoffice/dipendente/edit";
+	}
+	
+	@PostMapping("/dipendente/update")
+	public String updateDipendente(@Valid @ModelAttribute("edit_dipendente_attr") DipendenteDTO dipendenteDTO,
+			BindingResult result, RedirectAttributes redirectAttrs, HttpServletRequest request) {
+
+		if (result.hasErrors()) {
+			return "backoffice/dipendente/insert";
+		}
+		
+		dipendenteService.aggiorna(DipendenteDTO.buildDipendenteFromDTO(dipendenteDTO));
+		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
+		return "redirect:/backoffice";
+	}
 }

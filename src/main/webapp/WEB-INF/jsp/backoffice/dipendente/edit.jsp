@@ -30,7 +30,7 @@
 		<div class="container">
 
 			<%-- se l'attributo in request ha errori --%>
-			<spring:hasBindErrors name="film_regista_attr">
+			<spring:hasBindErrors name="edit_dipendente_attr">
 				<%-- alert errori --%>
 				<div class="alert alert-danger " role="alert">Attenzione!!
 					Sono presenti errori di validazione</div>
@@ -50,8 +50,8 @@
 				</div>
 				<div class='card-body'>
 
-					<form:form method="post" modelAttribute="insert_dipendente_attr"
-						action="save" novalidate="novalidate" class="row g-3">
+					<form:form method="post" modelAttribute="edit_dipendente_attr"
+						action="${pageContext.request.contextPath}/backoffice/dipendente/update" novalidate="novalidate" class="row g-3">
 
 						<div class="col-md-6">
 							<label for="nome" class="form-label">Nome</label>
@@ -59,7 +59,7 @@
 								<input type="text" name="nome" id="nome"
 									class="form-control ${status.error ? 'is-invalid' : ''}"
 									placeholder="Inserire il nome"
-									value="${insert_dipendente_attr.nome }">
+									value="${edit_dipendente_attr.nome }">
 							</spring:bind>
 							<form:errors path="nome" cssClass="error_field" />
 						</div>
@@ -70,7 +70,7 @@
 								<input type="text" name="cognome" id="cognome"
 									class="form-control ${status.error ? 'is-invalid' : ''}"
 									placeholder="Inserire il cognome"
-									value="${insert_dipendente_attr.cognome }">
+									value="${edit_dipendente_attr.cognome }">
 							</spring:bind>
 							<form:errors path="cognome" cssClass="error_field" />
 						</div>
@@ -81,7 +81,7 @@
 								<input type="text" name="codFis" id="codFis"
 									class="form-control ${status.error ? 'is-invalid' : ''}"
 									placeholder="Inserire il cofice fiscale"
-									value="${insert_dipendente_attr.codFis }">
+									value="${edit_dipendente_attr.codFis }">
 							</spring:bind>
 							<form:errors path="codFis" cssClass="error_field" />
 						</div>
@@ -93,16 +93,16 @@
 									id="sesso" name="sesso" required>
 									<option value="" selected>- Selezionare -</option>
 									<option value="MASCHIO"
-										${insert_dipendente_attr.sesso == 'M'?'selected':''}>M</option>
+										${edit_dipendente_attr.sesso == 'M'?'selected':''}>M</option>
 									<option value="FEMMINA"
-										${insert_dipendente_attr.sesso == 'F'?'selected':''}>F</option>
+										${edit_dipendente_attr.sesso == 'F'?'selected':''}>F</option>
 								</select>
 							</spring:bind>
 							<form:errors path="sesso" cssClass="error_field" />
 						</div>
 						<div class="col-md-6">
 							<fmt:formatDate pattern='yyyy-MM-dd' var="parsedDate" type='date'
-								value='${insert_dipendente_attr.dataNascita}' />
+								value='${edit_dipendente_attr.dataNascita}' />
 							<div class="form-group col-md-6">
 								<label for="dataNascita" class="form-label">Data di
 									nascita</label>
@@ -118,7 +118,7 @@
 
 						<div class="col-md-6">
 							<fmt:formatDate pattern='yyyy-MM-dd' var="parsedDate" type='date'
-								value='${insert_dipendente_attr.dataAssunzione}' />
+								value='${edit_dipendente_attr.dataAssunzione}' />
 							<div class="form-group col-md-6">
 								<label for="dataAssunzione" class="form-label">Data di
 									assunzione</label>
@@ -134,7 +134,7 @@
 
 						<div class="col-md-6">
 							<fmt:formatDate pattern='yyyy-MM-dd' var="parsedDate" type='date'
-								value='${insert_dipendente_attr.dataDimissione}' />
+								value='${edit_dipendente_attr.dataDimissione}' />
 							<div class="form-group col-md-6">
 								<label for=dataDimissione class="form-label">Data di
 									dimissione</label>
@@ -153,7 +153,7 @@
 							<button type="submit" name="submit" value="submit" id="submit"
 								class="btn btn-primary">Conferma</button>
 						</div>
-
+						<input type="hidden" value="${edit_dipendente_attr.id}" name="id">
 
 					</form:form>
 

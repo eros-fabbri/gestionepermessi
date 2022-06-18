@@ -128,6 +128,7 @@ public class DipendenteDTO {
 
 		/* considerare, in generale, l'uso del buildbattern */
 		DipendenteDTO result = new DipendenteDTO();
+		result.setId(dipendenteInput.getId());
 		result.setNome(dipendenteInput.getNome());
 		result.setCognome(dipendenteInput.getCognome());
 		result.setId(dipendenteInput.getId());

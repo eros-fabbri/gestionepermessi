@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -16,6 +17,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import ch.qos.logback.core.subst.Token.Type;
 
 
 
@@ -38,7 +41,7 @@ public class Utente {
 	private StatoUtente stato = StatoUtente.CREATO;
 	
 
-	@OneToOne(mappedBy = "utente")
+	@OneToOne(mappedBy = "utente", cascade = CascadeType.MERGE)
 	private Dipendente dipendente;
 	
 
