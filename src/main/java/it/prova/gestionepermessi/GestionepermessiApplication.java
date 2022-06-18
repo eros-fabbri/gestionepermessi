@@ -36,13 +36,9 @@ public class GestionepermessiApplication implements CommandLineRunner {
 		}
 
 		if (ruoloServiceInstance.cercaPerDescrizioneECodice("Backoffice User", "ROLE_BO_USER") == null) {
-			ruoloServiceInstance.inserisciNuovo(new Ruolo("Classic User", "ROLE_BO_USER"));
+			ruoloServiceInstance.inserisciNuovo(new Ruolo("Backoffice User", "ROLE_BO_USER"));
 		}
 
-		// a differenza degli altri progetti cerco solo per username perche' se vado
-		// anche per password ogni volta ne inserisce uno nuovo, inoltre l'encode della
-		// password non lo
-		// faccio qui perche gia lo fa il service di utente, durante inserisciNuovo
 		if (utenteServiceInstance.findByUsername("admin") == null) {
 
 			Dipendente dipendente = new Dipendente("paolo", "verdi", "YMXJWZ75A20C625T", "p.verdi@email.it", new Date(),
@@ -53,7 +49,6 @@ public class GestionepermessiApplication implements CommandLineRunner {
 			dipendente.setUtente(admin);
 			admin.getRuoli().add(ruoloServiceInstance.cercaPerDescrizioneECodice("Administrator", "ROLE_ADMIN"));
 			utenteServiceInstance.inserisciNuovoConDipendente(admin, dipendente);
-			// l'inserimento avviene come created ma io voglio attivarlo
 			utenteServiceInstance.changeUserAbilitation(admin.getId());
 		}
 
@@ -65,9 +60,8 @@ public class GestionepermessiApplication implements CommandLineRunner {
 
 			boUser.setDipendente(dipendente);
 			dipendente.setUtente(boUser);
-			boUser.getRuoli().add(ruoloServiceInstance.cercaPerDescrizioneECodice("BO User", "ROLE_BO_USER"));
+			boUser.getRuoli().add(ruoloServiceInstance.cercaPerDescrizioneECodice("Backoffice User", "ROLE_BO_USER"));
 			utenteServiceInstance.inserisciNuovoConDipendente(boUser, dipendente);
-			// l'inserimento avviene come created ma io voglio attivarlo
 			utenteServiceInstance.changeUserAbilitation(boUser.getId());
 		}
 

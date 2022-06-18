@@ -115,23 +115,6 @@
 						</div>
 
 
-						<!-- 						<div class="col-md-6 form-check" id="ruoliDivId"> -->
-						<!-- 									<p>Ruoli:</p> -->
-						<%-- 									<form:checkboxes itemValue="id" itemLabel="codice"  element="div class='form-check'" items="${ruoli_totali_attr}" path="ruoliIds" /> --%>
-						<!-- 								</div> -->
-						<!-- 								<script> -->
-// 									$(document).ready(function(){
-										
-// 										$("#ruoliDivId :input").each(function () {
-// 											$(this).addClass('form-check-input'); 
-// 										});
-// 										$("#ruoliDivId label").each(function () {
-// 											$(this).addClass('form-check-label'); 
-// 										});
-										
-// 									});
-<!-- 								</script> -->
-
 						<div class="col-12">
 							<button type="submit" name="submit" value="submit" id="submit"
 								class="btn btn-primary">Conferma</button>

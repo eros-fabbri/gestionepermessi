@@ -123,7 +123,6 @@ public class UtenteServiceImpl implements UtenteService {
 
 			List<Predicate> predicates = new ArrayList<Predicate>();
 
-			// faccio fetch del dipendente e ruoli a prescindere
 			root.fetch("dipendente", JoinType.INNER);
 			root.fetch("ruoli", JoinType.LEFT);
 
@@ -151,13 +150,22 @@ public class UtenteServiceImpl implements UtenteService {
 		};
 
 		Pageable paging = null;
-		// se non passo parametri di paginazione non ne tengo conto
 		if (pageSize == null || pageSize < 10)
-		paging = Pageable.unpaged();
+			paging = Pageable.unpaged();
 		else
-		paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+			paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 
 		return utenteRepository.findAll(specificationCriteria, paging);
-		}
+	}
+
+	@Transactional
+	public void aggiornaEdit(Utente utenteInstance) {
+	
+		Utente utenteReloaded = utenteRepository.findById(utenteInstance.getId()).orElse(null);
+		if (utenteReloaded == null)
+			throw new RuntimeException("Elemento non trovato");
+		utenteReloaded.setRuoli(utenteInstance.getRuoli());
+		utenteRepository.save(utenteReloaded);
+	}
 
 }

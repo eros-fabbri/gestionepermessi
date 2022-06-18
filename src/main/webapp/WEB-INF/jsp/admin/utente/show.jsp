@@ -31,9 +31,21 @@
 
 					<dl class="row">
 						<dt class="col-sm-3 text-right">Ruoli:</dt>
-						<c:forEach var="ruoloItem" items="${show_utente_attr.getRuoli()}">
-							<dd class="col-sm-9">${ruoloItem.descrizione}</dd>
-						</c:forEach>
+						<%--  checkbox ruoli --%>
+						<%-- facendolo con i tag di spring purtroppo viene un po' spaginato quindi aggiungo class 'a mano' --%>
+						
+							<c:forEach var="ruoloItem" items="${ruoli_totali_attr}">
+								<div class='form-check'>
+									<input name="ruoliIds" class="form-check-input" type="checkbox"
+										value="${ruoloItem.id }"
+										id="flexCheckDefault-${ruoloItem.id }"> <label
+										class="form-check-label"
+										for="flexCheckDefault-${ruoloItem.id }">
+										${ruoloItem.codice } </label>
+								</div>
+							</c:forEach>
+						
+						<%-- fine checkbox ruoli --%>
 						
 					</dl>
 

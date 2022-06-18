@@ -1,6 +1,7 @@
 package it.prova.gestionepermessi.dto;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,6 +9,7 @@ import java.util.stream.Collectors;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import it.prova.gestionepermessi.model.Ruolo;
 import it.prova.gestionepermessi.model.StatoUtente;
 import it.prova.gestionepermessi.model.Utente;
 import it.prova.gestionepermessi.validation.ValidationNoPassword;
@@ -109,10 +111,11 @@ public class UtenteDTO {
 
 	public Utente buildUtenteModel(boolean includeIdRoles) {
 		Utente result = new Utente(this.id, this.username, this.password, this.stato);
-		if (includeIdRoles) {
-			//aggiunere ruoli
+		if (includeIdRoles && ruoliIds != null)
+			result.setRuoli(Arrays.asList(ruoliIds).stream().map(id -> new Ruolo(id)).collect(Collectors.toSet()));
+		if (this.dipendenteDTO != null) {
+			result.setDipendente(this.dipendenteDTO.buildDipendenteModel());
 		}
-		result.setDipendente(this.dipendenteDTO.buildDipendenteModel());
 		return result;
 	}
 
