@@ -60,7 +60,7 @@
 							<a class="dropdown-item"
 								href="${pageContext.request.contextPath}/logout">Logout</a> <a
 								class="dropdown-item"
-								href="${pageContext.request.contextPath}/utente/insert">Reset
+								href="${pageContext.request.contextPath}/reset">Reset
 								Password</a>
 						</div></li>
 				</ul>

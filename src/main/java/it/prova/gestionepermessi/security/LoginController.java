@@ -3,21 +3,34 @@ package it.prova.gestionepermessi.security;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import it.prova.gestionepermessi.model.Utente;
+import it.prova.gestionepermessi.service.UtenteService;
 
 @Controller
 public class LoginController {
 
+	@Autowired
+	UtenteService utenteService;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
+	
 	@RequestMapping(value = "/login", method = {RequestMethod.POST,RequestMethod.GET})
 	public String loginPage(@RequestParam(value = "error", required = false) String error,
 			Model model, HttpServletRequest request) {
@@ -65,5 +78,31 @@ public class LoginController {
 		model.addAttribute("errorMessage", "Attenzione! Non si dispone delle autorizzazioni per accedere alla funzionalità richiesta.");
 		return "index";
 	}
+	
+	@RequestMapping(value = "/reset", method = { RequestMethod.GET })
+	public String resetPassword() {
+		return "resetpassword";
+	}
+	
+	@RequestMapping(value = "/confirmreset", method = { RequestMethod.POST })
+	public String reset(@RequestParam(required = true) String oldPassword,
+			@RequestParam(required = true) String newPassword, @RequestParam(required = true) String confermaPassword,
+			RedirectAttributes redirectAttrs) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth == null) {
+			return "redirect:/logout";
+		}
 
+		Utente utente = utenteService.findByUsername(auth.getName());
+		if (utente == null || passwordEncoder.matches(utente.getPassword(), oldPassword)) {
+			return "redirect:/logout";
+		}
+
+		if (newPassword.equals(confermaPassword)) {
+			utente.setPassword(passwordEncoder.encode(newPassword));
+			utenteService.aggiorna(utente);
+		}
+		return "redirect:/logout";
+
+	}
 }

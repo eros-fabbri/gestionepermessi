@@ -39,7 +39,7 @@ public class DipendenteServiceImpl implements DipendenteService {
 	@Override
 	@Transactional
 	public void aggiorna(Dipendente dipendenteInstance) {
-	
+
 		dipendenteRepository.save(dipendenteInstance);
 	}
 
