@@ -111,8 +111,12 @@ public class BackofficeController {
 		if (result.hasErrors()) {
 			return "backoffice/dipendente/insert";
 		}
+		Dipendente dipendente = DipendenteDTO.buildDipendenteFromDTO(dipendenteDTO);
+		Utente utente = new Utente(GenerazioneAutomaticaUtility.generaUsernameDaDipendente(dipendente));
+    	utente.setId(utenteService.findByDipendenteId(dipendente.getId()).getId());
+		dipendente.setUtente(utente);
 		
-		dipendenteService.aggiorna(DipendenteDTO.buildDipendenteFromDTO(dipendenteDTO));
+		dipendenteService.aggiorna(dipendente);
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
 		return "redirect:/backoffice";
 	}

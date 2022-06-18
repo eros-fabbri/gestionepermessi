@@ -168,8 +168,8 @@ public class UtenteServiceImpl implements UtenteService {
 		utenteRepository.save(utenteReloaded);
 	}
 	@Transactional
-	public Utente findByDipendente(Dipendente dipendente) {
-		return utenteRepository.findUtenteByDipendenteEquals(dipendente);
+	public Utente findByDipendenteId(Long id) {
+		return utenteRepository.findUtenteByDipendenteIdEquals(id);
 	}
 
 }

@@ -18,6 +18,10 @@ public class GenerazioneAutomaticaUtility {
 		return result;
 	}
 	
+	public static String generaUsernameDaDipendente(Dipendente dipendenteInput) {
+		return dipendenteInput.getNome().charAt(0)+"."+dipendenteInput.getCognome();
+	}
+	
 	public static String generaEmailDaDipendente(Dipendente dipendenteInput) {
 		return dipendenteInput.getNome().charAt(0) + "."+dipendenteInput.getCognome()+"@prova.it";
 	}

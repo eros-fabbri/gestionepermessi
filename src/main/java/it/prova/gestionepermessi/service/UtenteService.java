@@ -37,6 +37,6 @@ public interface UtenteService {
 	
 	public void aggiornaEdit(Utente utenteInstance); 
 	
-	public Utente findByDipendente(Dipendente dipendente);
+	public Utente findByDipendenteId(Long id);
 
 }

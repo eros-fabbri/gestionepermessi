@@ -67,6 +67,12 @@ public class Utente {
 		this.password = password;
 	}
 	
+	public Utente(String username) {
+		super();
+		this.username = username;
+
+	}
+	
 	public Utente(String password, Date dateCreated) {
 		super();
 		this.password = password;

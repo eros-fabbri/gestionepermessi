@@ -32,5 +32,5 @@ public interface UtenteRepository extends CrudRepository<Utente, Long>{
 	
 	Page<Utente> findAll(Specification<Utente> specificationCriteria, Pageable paging);
 	
-	Utente findUtenteByDipendenteEquals(Dipendente dipendente);
+	Utente findUtenteByDipendenteIdEquals(Long id);
 }
