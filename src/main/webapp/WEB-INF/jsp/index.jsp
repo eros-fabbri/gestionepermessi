@@ -78,8 +78,16 @@
 							href="${pageContext.request.contextPath}/backoffice">Gestione
 							Dipendenti</a>
 						<a class="btn btn-primary btn-lg"
-							href="${pageContext.request.contextPath}/admin/utente">Gestione
-							Utenti</a>
+							href="${pageContext.request.contextPath}/backoffice/messaggi/search">Ricerca
+							Messaggi</a>
+						<a class="btn btn-primary btn-lg"
+							href="${pageContext.request.contextPath}/backoffice/messaggi">Gestione
+							Messaggi</a>
+					</sec:authorize>
+					<sec:authorize access="hasRole('DIPENDENTE_USER')">
+						<a class="btn btn-primary btn-lg"
+							href="${pageContext.request.contextPath}/dipendente/richiestepermesso">Gestione
+							Richieste Permesso</a>
 					</sec:authorize>
 				</div>
 			</div>

@@ -43,6 +43,17 @@
 									Dipendente</a>
 							</div></li>
 					</sec:authorize>
+					<sec:authorize access="hasRole('DIPENDENTE_USER')">
+						<li class="nav-item dropdown"><a
+							class="nav-link dropdown-toggle" href="#" id="dropdown01"
+							data-bs-toggle="dropdown" aria-haspopup="true"
+							aria-expanded="false">Menu</a>
+							<div class="dropdown-menu" aria-labelledby="dropdown01">
+								<a class="dropdown-item"
+									href="${pageContext.request.contextPath}/dipendente/insert">Nuova 
+									richiesta permesso</a>
+							</div></li>
+					</sec:authorize>
 				</ul>
 			</div>
 			<sec:authorize access="isAuthenticated()">
