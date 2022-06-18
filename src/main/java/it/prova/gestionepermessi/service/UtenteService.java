@@ -29,7 +29,7 @@ public interface UtenteService {
 	
 	public Utente findByUsernameAndPassword(String username, String password); 
 	
-	//public Utente eseguiAccesso(String username, String password); 
+	public Utente eseguiAccesso(String username, String password); 
 	
 	public void changeUserAbilitation(Long utenteInstanceId);
 	

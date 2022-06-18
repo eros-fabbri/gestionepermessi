@@ -14,7 +14,9 @@ import org.springframework.stereotype.Component;
 
 import it.prova.gestionepermessi.dto.DipendenteDTO;
 import it.prova.gestionepermessi.dto.UtenteDTO;
+import it.prova.gestionepermessi.model.Dipendente;
 import it.prova.gestionepermessi.model.Utente;
+import it.prova.gestionepermessi.repository.dipendente.DipendenteRepository;
 import it.prova.gestionepermessi.repository.utente.UtenteRepository;
 
 
@@ -23,17 +25,23 @@ public class CustomAuthenticationSuccessHandlerImpl implements AuthenticationSuc
 
 	@Autowired
 	private UtenteRepository utenteRepository;
+	
+	@Autowired
+	private DipendenteRepository dipendenteRepository;
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		
 		
-		Utente utenteFromDb = utenteRepository.findByUsernameEagerDipendente(authentication.getName()).orElseThrow(() -> new UsernameNotFoundException("Username " + authentication.getName() + " not found"));
+		Utente utenteFromDb = utenteRepository.findByUsername(authentication.getName()).orElseThrow(() -> new UsernameNotFoundException("Username " + authentication.getName() + " not found"));
 		UtenteDTO utenteParziale = new UtenteDTO();
-		utenteParziale.setDipendenteDTO(new DipendenteDTO());
+		Dipendente dipendente = dipendenteRepository.findByUtenteEquals(utenteFromDb.getId());
+		System.out.println(dipendente);
+		utenteParziale.setDipendenteDTO(DipendenteDTO.buildDTOFromDipendente(dipendente));
 		utenteParziale.getDipendenteDTO().setNome(utenteFromDb.getDipendente().getNome());
 		utenteParziale.getDipendenteDTO().setCognome(utenteFromDb.getDipendente().getCognome());
+		
 		request.getSession().setAttribute("userInfo", utenteParziale);
 		response.sendRedirect("home");
 

@@ -40,6 +40,7 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
          .antMatchers("/admin/**").hasRole("ADMIN")
          .antMatchers("/backoffice/**").hasRole("BO_USER")
          .antMatchers("/dipendente/**").hasRole("DIPENDENTE_USER")
+         .antMatchers("/**").hasAnyRole("ADMIN","BO_USER","DIPENDENTE_USER")
          //.antMatchers("/anonymous*").anonymous()
          .anyRequest().authenticated()
          .and().exceptionHandling().accessDeniedPage("/accessDenied")

@@ -76,18 +76,6 @@
 						</div>
 
 						<div class="col-md-6">
-							<label for="email" class="form-label">Email</label>
-							<spring:bind path="email">
-								<input type="text"
-									class="form-control ${status.error ? 'is-invalid' : ''}"
-									name="email" id="email" placeholder="Inserire la durata"
-									value="${insert_dipendente_attr.email }">
-							</spring:bind>
-							<form:errors path="email" cssClass="error_field" />
-						</div>
-
-
-						<div class="col-md-6">
 							<label for="codFis" class="form-label">Codice Fiscale</label>
 							<spring:bind path="codFis">
 								<input type="text" name="codFis" id="codFis"

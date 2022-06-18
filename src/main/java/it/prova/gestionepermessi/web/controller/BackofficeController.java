@@ -29,7 +29,6 @@ import it.prova.gestionepermessi.utility.GenerazioneAutomaticaUtility;
 @Controller
 @RequestMapping("/backoffice")
 public class BackofficeController {
-	
 
 	@Autowired
 	DipendenteService dipendenteService;
@@ -37,8 +36,7 @@ public class BackofficeController {
 	UtenteService utenteService;
 	@Autowired
 	RuoloService ruoloService;
-	
-	
+
 	@GetMapping
 	public ModelAndView listAllDipendenti() {
 		ModelAndView mv = new ModelAndView();
@@ -47,7 +45,7 @@ public class BackofficeController {
 		mv.setViewName("backoffice/dipendente/list");
 		return mv;
 	}
-	
+
 	@GetMapping("/dipendente/insert")
 	public String insert(Model model) {
 		model.addAttribute("insert_dipendente_attr", new DipendenteDTO());
@@ -66,15 +64,17 @@ public class BackofficeController {
 		dipendente.setEmail(GenerazioneAutomaticaUtility.generaEmailDaDipendente(dipendente));
 		Utente utente = GenerazioneAutomaticaUtility.generaNuovoUtenteDaDipendente(dipendente);
 		utente.getRuoli().add(ruoloService.cercaPerDescrizioneECodice("Dipendente User", "ROLE_DIPENDENTE_USER"));
-		if (utenteService.findByUsername(utente.getUsername())!=null){
+		if (utenteService.findByUsername(utente.getUsername()) != null) {
 			redirectAttrs.addFlashAttribute("errorMessage", "ATTENZIONE: dipendente già censisto!");
 			return "redirect:/home";
 		}
+		utente.setDipendente(dipendente);
+		dipendente.setUtente(utente);
 		utenteService.inserisciNuovoConDipendente(utente, dipendente);
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
 		return "redirect:/backoffice";
 	}
-	
+
 	@GetMapping("/dipendente/show/{idDipendente}")
 	public String showDipendente(@PathVariable(required = true) Long idDipendente, Model model) {
 
@@ -82,7 +82,7 @@ public class BackofficeController {
 				DipendenteDTO.buildDTOFromDipendente(dipendenteService.caricaDipendente(idDipendente)));
 		return "backoffice/dipendente/show";
 	}
-	
+
 	@GetMapping("/dipendente/search")
 	public String searchDipendente(Model model) {
 		model.addAttribute("search_dipendente_attr", new DipendenteDTO());
