@@ -29,7 +29,7 @@ public class CustomAuthenticationSuccessHandlerImpl implements AuthenticationSuc
 			Authentication authentication) throws IOException, ServletException {
 		
 		
-		Utente utenteFromDb = utenteRepository.findByUsername(authentication.getName()).orElseThrow(() -> new UsernameNotFoundException("Username " + authentication.getName() + " not found"));
+		Utente utenteFromDb = utenteRepository.findByUsernameEagerDipendente(authentication.getName()).orElseThrow(() -> new UsernameNotFoundException("Username " + authentication.getName() + " not found"));
 		UtenteDTO utenteParziale = new UtenteDTO();
 		utenteParziale.setDipendenteDTO(new DipendenteDTO());
 		utenteParziale.getDipendenteDTO().setNome(utenteFromDb.getDipendente().getNome());

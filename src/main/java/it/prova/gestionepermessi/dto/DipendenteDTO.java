@@ -22,7 +22,6 @@ public class DipendenteDTO {
 	private String cognome;
 	@Size(min = 16, max = 16)
 	private String codFis;
-	@NotBlank
 	private String email;
 	@NotNull
 	private Date dataNascita;

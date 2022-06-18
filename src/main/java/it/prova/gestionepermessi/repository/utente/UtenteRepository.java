@@ -26,5 +26,8 @@ public interface UtenteRepository extends CrudRepository<Utente, Long>{
 	@EntityGraph(attributePaths = { "ruoli" })
 	Utente findByUsernameAndPasswordAndStato(String username,String password, StatoUtente stato);
 
+	@Query("from Utente u join fetch u.dipendente d where u.username= ?1")
+	Optional<Utente>  findByUsernameEagerDipendente(String username);
+	
 	Page<Utente> findAll(Specification<Utente> specificationCriteria, Pageable paging);
 }

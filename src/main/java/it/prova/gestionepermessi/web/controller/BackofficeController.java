@@ -24,7 +24,7 @@ import it.prova.gestionepermessi.model.Utente;
 import it.prova.gestionepermessi.service.DipendenteService;
 import it.prova.gestionepermessi.service.RuoloService;
 import it.prova.gestionepermessi.service.UtenteService;
-import it.prova.gestionepermessi.utility.UtenteUtility;
+import it.prova.gestionepermessi.utility.GenerazioneAutomaticaUtility;
 
 @Controller
 @RequestMapping("/backoffice")
@@ -63,7 +63,8 @@ public class BackofficeController {
 		}
 
 		Dipendente dipendente = DipendenteDTO.buildDipendenteFromDTO(dipendenteDTO);
-		Utente utente = UtenteUtility.generaNuovoUtenteDaDipendente(dipendente);
+		dipendente.setEmail(GenerazioneAutomaticaUtility.generaEmailDaDipendente(dipendente));
+		Utente utente = GenerazioneAutomaticaUtility.generaNuovoUtenteDaDipendente(dipendente);
 		utente.getRuoli().add(ruoloService.cercaPerDescrizioneECodice("Dipendente User", "ROLE_DIPENDENTE_USER"));
 		if (utenteService.findByUsername(utente.getUsername())!=null){
 			redirectAttrs.addFlashAttribute("errorMessage", "ATTENZIONE: dipendente già censisto!");
