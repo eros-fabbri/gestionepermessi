@@ -10,6 +10,8 @@ public interface DipendenteService {
 	
 	public List<Dipendente> findAll();
 	
+	public List<Dipendente> findAllEagerUtente();
+	
 	public Dipendente caricaDipendente(Long id);
 	
 	public List<Dipendente> findByExample(Dipendente example);

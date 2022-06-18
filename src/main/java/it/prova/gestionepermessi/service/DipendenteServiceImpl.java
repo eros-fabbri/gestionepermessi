@@ -87,4 +87,11 @@ public class DipendenteServiceImpl implements DipendenteService {
 		return typedQuery.getResultList();
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<Dipendente> findAllEagerUtente() {
+		
+		return  dipendenteRepository.findAllDipendenteFilmEager();
+	}
+
 }

@@ -50,8 +50,8 @@
 				</div>
 				<div class='card-body'>
 
-					<form:form method="post" modelAttribute="insert_dipendente_attr"
-						action="save" novalidate="novalidate" class="row g-3">
+					<form:form method="post" modelAttribute="search_dipendente_attr"
+						action="list" novalidate="novalidate" class="row g-3">
 
 						<div class="col-md-6">
 							<label for="nome" class="form-label">Nome</label>
@@ -59,7 +59,7 @@
 								<input type="text" name="nome" id="nome"
 									class="form-control ${status.error ? 'is-invalid' : ''}"
 									placeholder="Inserire il nome"
-									value="${insert_dipendente_attr.nome }">
+									value="${search_dipendente_attr.nome }">
 							</spring:bind>
 							<form:errors path="nome" cssClass="error_field" />
 						</div>
@@ -70,7 +70,7 @@
 								<input type="text" name="cognome" id="cognome"
 									class="form-control ${status.error ? 'is-invalid' : ''}"
 									placeholder="Inserire il cognome"
-									value="${insert_dipendente_attr.cognome }">
+									value="${search_dipendente_attr.cognome }">
 							</spring:bind>
 							<form:errors path="cognome" cssClass="error_field" />
 						</div>
@@ -81,86 +81,38 @@
 								<input type="text"
 									class="form-control ${status.error ? 'is-invalid' : ''}"
 									name="email" id="email" placeholder="Inserire la durata"
-									value="${insert_dipendente_attr.email }">
+									value="${search_dipendente_attr.email }">
 							</spring:bind>
 							<form:errors path="email" cssClass="error_field" />
 						</div>
 
 
 						<div class="col-md-6">
-							<label for="codFis" class="form-label">Codice Fiscale</label>
+							<label for="codfis" class="form-label">Codice Fiscale</label>
 							<spring:bind path="codFis">
-								<input type="text" name="codFis" id="codFis"
+								<input type="text" name="codfis" id="codfis"
 									class="form-control ${status.error ? 'is-invalid' : ''}"
 									placeholder="Inserire il cofice fiscale"
-									value="${insert_dipendente_attr.codFis }">
+									value="${search_dipendente_attr.codFis }">
 							</spring:bind>
-							<form:errors path="codFis" cssClass="error_field" />
-						</div>
-						<div class="col-md-6">
-							<label for="sesso" class="form-label">Sesso <span
-								class="text-danger">*</span></label>
-							<spring:bind path="sesso">
-								<select class="form-select ${status.error ? 'is-invalid' : ''}"
-									id="sesso" name="sesso" required>
-									<option value="" selected>- Selezionare -</option>
-									<option value="MASCHIO"
-										${insert_regista_attr.sesso == 'MASCHIO'?'selected':''}>M</option>
-									<option value="FEMMINA"
-										${insert_regista_attr.sesso == 'FEMMINA'?'selected':''}>F</option>
-								</select>
-							</spring:bind>
-							<form:errors path="sesso" cssClass="error_field" />
-						</div>
-						<div class="col-md-6">
-							<fmt:formatDate pattern='yyyy-MM-dd' var="parsedDate" type='date'
-								value='${insert_dipendente_attr.dataNascita}' />
-							<div class="form-group col-md-6">
-								<label for="dataNascita" class="form-label">Data di
-									nascita</label>
-								<spring:bind path="dataNascita">
-									<input class="form-control ${status.error ? 'is-invalid' : ''}"
-										id="dataNascita" type="date" placeholder="dd/MM/yy"
-										title="formato : gg/mm/aaaa" name="dataNascita"
-										value="${parsedDate}">
-								</spring:bind>
-								<form:errors path="dataNascita" cssClass="error_field" />
-							</div>
+							<form:errors path="cognome" cssClass="error_field" />
 						</div>
 
 						<div class="col-md-6">
-							<fmt:formatDate pattern='yyyy-MM-dd' var="parsedDate" type='date'
-								value='${insert_dipendente_attr.dataAssunzione}' />
-							<div class="form-group col-md-6">
-								<label for="dataAssunzione" class="form-label">Data di
-									assunzione</label>
-								<spring:bind path="dataAssunzione">
-									<input class="form-control ${status.error ? 'is-invalid' : ''}"
-										id="dataAssunzione" type="date" placeholder="dd/MM/yy"
-										title="formato : gg/mm/aaaa" name="dataAssunzione"
-										value="${parsedDate}">
-								</spring:bind>
-								<form:errors path="dataAssunzione" cssClass="error_field" />
-							</div>
+									<label for="dataNascita" class="form-label">Data di Nascita </label>
+                        			<input class="form-control" id="dataNascita" type="date" placeholder="dd/MM/yy"
+                            			title="formato : gg/mm/aaaa"  name="dataNascita"   >
 						</div>
-
 						<div class="col-md-6">
-							<fmt:formatDate pattern='yyyy-MM-dd' var="parsedDate" type='date'
-								value='${insert_dipendente_attr.dataDimissione}' />
-							<div class="form-group col-md-6">
-								<label for=dataDimissione class="form-label">Data di
-									dimissione</label>
-								<spring:bind path="dataDimissione">
-									<input class="form-control ${status.error ? 'is-invalid' : ''}"
-										id="dataDimissione" type="date" placeholder="dd/MM/yy"
-										title="formato : gg/mm/aaaa" name="dataDimissione"
-										value="${parsedDate}">
-								</spring:bind>
-								<form:errors path="dataDimissione" cssClass="error_field" />
-							</div>
+									<label for="dataAssunzione" class="form-label">Data di Assunzione </label>
+                        			<input class="form-control" id="dataAssunzione" type="date" placeholder="dd/MM/yy"
+                            			title="formato : gg/mm/aaaa"  name="dataAssunzione"   >
 						</div>
-
-
+						<div class="col-md-6">
+									<label for="dataDimissione" class="form-label">Data di Dimissione </label>
+                        			<input class="form-control" id="dataDimissione" type="date" placeholder="dd/MM/yy"
+                            			title="formato : gg/mm/aaaa"  name="dataDimissione"   >
+						</div>
 						<div class="col-12">
 							<button type="submit" name="submit" value="submit" id="submit"
 								class="btn btn-primary">Conferma</button>

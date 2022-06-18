@@ -73,6 +73,14 @@
 							href="${pageContext.request.contextPath}/admin/utente">Gestione
 							Utenti</a>
 					</sec:authorize>
+					<sec:authorize access="hasRole('BO_USER')">
+						<a class="btn btn-primary btn-lg"
+							href="${pageContext.request.contextPath}/backoffice">Gestione
+							Dipendenti</a>
+						<a class="btn btn-primary btn-lg"
+							href="${pageContext.request.contextPath}/admin/utente">Gestione
+							Utenti</a>
+					</sec:authorize>
 				</div>
 			</div>
 

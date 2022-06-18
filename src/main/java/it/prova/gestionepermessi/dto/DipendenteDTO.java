@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -15,22 +16,20 @@ public class DipendenteDTO {
 	/* agggiungere validation constraints */
 
 	private Long id;
-	@NotNull
+	@NotBlank
 	private String nome;
-	@NotNull
+	@NotBlank
 	private String cognome;
 	@Size(min = 16, max = 16)
 	private String codFis;
-	@NotNull
+	@NotBlank
 	private String email;
 	@NotNull
 	private Date dataNascita;
 	@NotNull
 	private Date dataAssunzione;
-	@NotNull
 	private Date dataDimissione;
-	@NotNull
-	private RuoloDTO ruolo;
+
 	@NotNull
 	private String sesso;
 
@@ -106,20 +105,12 @@ public class DipendenteDTO {
 		this.sesso = sesso;
 	}
 
-	public RuoloDTO getRuolo() {
-		return ruolo;
-	}
-
-	public void setRuolo(RuoloDTO ruolo) {
-		this.ruolo = ruolo;
-	}
-
 	public static List<DipendenteDTO> createDipendenteDTOLIstFromDipendenteList(List<Dipendente> listDipendenti) {
 		List<DipendenteDTO> result = new ArrayList<>();
 		listDipendenti.forEach(d -> result.add(DipendenteDTO.buildDTOFromDipendente(d)));
 		return result;
 	}
-	
+
 	public Dipendente buildDipendenteModel() {
 		Dipendente result = new Dipendente();
 		result.setId(this.id);
@@ -148,10 +139,10 @@ public class DipendenteDTO {
 		result.setSesso(dipendenteInput.getSesso().getAbbreviazione());
 		result.setEmail(dipendenteInput.getEmail());
 		
-		if (!dipendenteInput.getUtente().getRuoli().isEmpty()) {
-			
-			
-		}
+			if (dipendenteInput.getUtente() !=null) {
+				//da implementare
+			}
+
 		return result;
 
 	}
@@ -171,6 +162,5 @@ public class DipendenteDTO {
 
 		return result;
 	}
-	
-	
+
 }

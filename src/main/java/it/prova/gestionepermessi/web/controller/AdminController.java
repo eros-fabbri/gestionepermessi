@@ -30,7 +30,6 @@ import it.prova.gestionepermessi.service.RuoloService;
 import it.prova.gestionepermessi.service.UtenteService;
 import it.prova.gestionepermessi.validation.ValidationNoPassword;
 
-
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -115,7 +114,7 @@ public class AdminController {
 				UtenteDTO.buildUtenteDTOFromModel(utenteService.caricaSingoloUtente(idUtente)));
 		return "admin/utente/edit";
 	}
-	
+
 	@PostMapping("/utente/update")
 	public String update(@Validated(ValidationNoPassword.class) @ModelAttribute("edit_utente_attr") UtenteDTO utenteDTO,
 			BindingResult result, Model model, RedirectAttributes redirectAttrs, HttpServletRequest request) {
@@ -129,8 +128,5 @@ public class AdminController {
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
 		return "redirect:/utente/list";
 	}
-
-	
-	
 
 }

@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.prova.gestionepermessi.dto.DipendenteDTO;
 import it.prova.gestionepermessi.model.Dipendente;
+import it.prova.gestionepermessi.model.Utente;
 import it.prova.gestionepermessi.service.DipendenteService;
 import it.prova.gestionepermessi.service.RuoloService;
 import it.prova.gestionepermessi.service.UtenteService;
@@ -42,36 +44,55 @@ public class BackofficeController {
 		ModelAndView mv = new ModelAndView();
 		List<Dipendente> dipendenti = dipendenteService.findAll();
 		mv.addObject("dipendenti_list_attribute", DipendenteDTO.createDipendenteDTOLIstFromDipendenteList(dipendenti));
-		mv.setViewName("backoffice/list");
+		mv.setViewName("backoffice/dipendente/list");
 		return mv;
 	}
 	
-	@GetMapping("/insert")
+	@GetMapping("/dipendente/insert")
 	public String insert(Model model) {
 		model.addAttribute("insert_dipendente_attr", new DipendenteDTO());
-		return "backoffice/insert";
+		return "backoffice/dipendente/insert";
 	}
 
-	@PostMapping("/save")
+	@PostMapping("/dipendente/save")
 	public String saveFilm(@Valid @ModelAttribute("insert_dipendente_attr") DipendenteDTO dipendenteDTO,
 			BindingResult result, RedirectAttributes redirectAttrs, HttpServletRequest request) {
 
 		if (result.hasErrors()) {
-			return "backoffice";
+			return "backoffice/dipendente/insert";
 		}
 
 		Dipendente dipendente = DipendenteDTO.buildDipendenteFromDTO(dipendenteDTO);
-		utenteService.inserisciNuovoConDipendente(UtenteUtility.generaNuovoUtenteDaDipendente(dipendente), dipendente);
+		Utente utente = UtenteUtility.generaNuovoUtenteDaDipendente(dipendente);
+		utente.getRuoli().add(ruoloService.cercaPerDescrizioneECodice("Dipendente User", "ROLE_DIPENDENTE_USER"));
+		if (utenteService.findByUsername(utente.getUsername())!=null){
+			redirectAttrs.addFlashAttribute("errorMessage", "ATTENZIONE: dipendente già censisto!");
+			return "redirect:/home";
+		}
+		utenteService.inserisciNuovoConDipendente(utente, dipendente);
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
-
 		return "redirect:/backoffice";
 	}
 	
-	@GetMapping("/show/{idDipendente}")
+	@GetMapping("/dipendente/show/{idDipendente}")
 	public String showDipendente(@PathVariable(required = true) Long idDipendente, Model model) {
 
 		model.addAttribute("show_dipendente_attr",
 				DipendenteDTO.buildDTOFromDipendente(dipendenteService.caricaDipendente(idDipendente)));
-		return "backoffice/show";
+		return "backoffice/dipendente/show";
 	}
+	
+	@GetMapping("/dipendente/search")
+	public String searchDipendente(Model model) {
+		model.addAttribute("search_dipendente_attr", new DipendenteDTO());
+		return "backoffice/dipendente/search";
+	}
+
+	@PostMapping("/dipendente/list")
+	public String listDipendente(DipendenteDTO dipendenteExample, ModelMap model) {
+		model.addAttribute("dipendenti_list_attribute", DipendenteDTO.createDipendenteDTOLIstFromDipendenteList(
+				dipendenteService.findByExample(dipendenteExample.buildDipendenteModel())));
+		return "backoffice/dipendente/list";
+	}
+
 }

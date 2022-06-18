@@ -44,7 +44,7 @@ public class Utente {
 
 	@ManyToMany
 	@JoinTable(name = "utente_ruolo", joinColumns = @JoinColumn(name = "utente_id", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ruolo_id", referencedColumnName = "ID"))
-	private Set<Ruolo> ruoli = new HashSet<>(0);
+	private Set<Ruolo> ruoli = new HashSet<>();
 
 	public Utente() {
 	}
@@ -62,6 +62,12 @@ public class Utente {
 		super();
 		this.username = username;
 		this.password = password;
+	}
+	
+	public Utente(String password, Date dateCreated) {
+		super();
+		this.password = password;
+		this.dateCreated = dateCreated;
 	}
 
 	public Utente(String username, String password, Date dateCreated) {

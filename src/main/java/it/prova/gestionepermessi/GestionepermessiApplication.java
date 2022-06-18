@@ -22,8 +22,7 @@ public class GestionepermessiApplication implements CommandLineRunner {
 	private RuoloService ruoloServiceInstance;
 	@Autowired
 	private UtenteService utenteServiceInstance;
-//	@Autowired
-//	private DipendenteService dipendenteService;
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(GestionepermessiApplication.class, args);
@@ -64,6 +63,9 @@ public class GestionepermessiApplication implements CommandLineRunner {
 			utenteServiceInstance.inserisciNuovoConDipendente(boUser, dipendente);
 			utenteServiceInstance.changeUserAbilitation(boUser.getId());
 		}
+		
+		if (ruoloServiceInstance.cercaPerDescrizioneECodice("Dipendente User", "ROLE_DIPENDENTE_USER") == null)
+			ruoloServiceInstance.inserisciNuovo(new Ruolo("Dipendente User","ROLE_DIPENDENTE_USER"));
 
 	}
 
