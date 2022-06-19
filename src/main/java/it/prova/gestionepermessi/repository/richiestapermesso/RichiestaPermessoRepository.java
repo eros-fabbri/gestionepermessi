@@ -1,4 +1,4 @@
-package it.prova.gestionepermessi.repository.attachment;
+package it.prova.gestionepermessi.repository.richiestapermesso;
 
 import java.util.List;
 
@@ -14,5 +14,4 @@ public interface RichiestaPermessoRepository extends CrudRepository<RichiestaPer
 	 public List<RichiestaPermesso> findAllByDipendenteId(Long id);
 	 
 	 public Page<RichiestaPermesso> findAll(Specification<RichiestaPermesso> specificationCriteria, Pageable pagin);
-	 
 }

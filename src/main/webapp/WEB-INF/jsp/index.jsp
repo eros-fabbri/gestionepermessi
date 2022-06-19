@@ -14,6 +14,22 @@
 </head>
 <body class="d-flex flex-column h-100">
 
+	<div class="modal fade notificamodal" id="newmessages" tabindex="-1" role="dialog"
+		aria-labelledby="notifica" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Hai dei nuovi messaggi</h5>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="close" class="btn btn-secondary close"
+						data-dismiss="modal">Ho capito</button>
+					<button type="button" id="confermaabilita" class="btn btn-primary">Leggi</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<!-- #####################################  -->
 	<!-- elementi grafici per le features in basso  -->
 	<!-- #####################################  -->
@@ -82,20 +98,31 @@
 							Messaggi</a>
 						<a class="btn btn-primary btn-lg"
 							href="${pageContext.request.contextPath}/backoffice/messaggi">Gestione
-							Messaggi</a>
+							Messaggi </a>
 					</sec:authorize>
 					<sec:authorize access="hasRole('DIPENDENTE_USER')">
 						<a class="btn btn-primary btn-lg"
 							href="${pageContext.request.contextPath}/dipendente/richiestepermesso">Gestione
-							Richieste Permesso</a>
+							Richieste Permesso </a>
 					</sec:authorize>
+
+
 				</div>
 			</div>
 
 		</div>
-
-
-
+					<script>
+						$(document).ready(function(){
+							if(${newMessages}){
+								 $('#newmessages').modal('show');
+							}
+							  $('.close').click(function(){
+							    $('.notificamodal').modal('hide');
+							    $.get( "${pageContext.request.contextPath}/backoffice/disableNotifica");
+							   });
+							  
+							});
+					</script>
 	</main>
 
 	<!-- Footer -->

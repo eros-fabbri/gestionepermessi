@@ -17,6 +17,8 @@ import it.prova.gestionepermessi.dto.UtenteDTO;
 import it.prova.gestionepermessi.model.Dipendente;
 import it.prova.gestionepermessi.model.Utente;
 import it.prova.gestionepermessi.repository.dipendente.DipendenteRepository;
+import it.prova.gestionepermessi.repository.messaggio.MessaggioRepository;
+import it.prova.gestionepermessi.repository.ruolo.RuoloRepository;
 import it.prova.gestionepermessi.repository.utente.UtenteRepository;
 
 
@@ -25,9 +27,12 @@ public class CustomAuthenticationSuccessHandlerImpl implements AuthenticationSuc
 
 	@Autowired
 	private UtenteRepository utenteRepository;
-	
 	@Autowired
 	private DipendenteRepository dipendenteRepository;
+	@Autowired
+	private RuoloRepository ruoloRepository;
+	@Autowired
+	private MessaggioRepository messaggioRepository;
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -37,12 +42,13 @@ public class CustomAuthenticationSuccessHandlerImpl implements AuthenticationSuc
 		Utente utenteFromDb = utenteRepository.findByUsername(authentication.getName()).orElseThrow(() -> new UsernameNotFoundException("Username " + authentication.getName() + " not found"));
 		UtenteDTO utenteParziale = new UtenteDTO();
 		Dipendente dipendente = dipendenteRepository.findByUtenteIdEquals(utenteFromDb.getId());
-		System.out.println(dipendente);
 		utenteParziale.setDipendenteDTO(DipendenteDTO.buildDTOFromDipendente(dipendente));
 		utenteParziale.getDipendenteDTO().setNome(utenteFromDb.getDipendente().getNome());
 		utenteParziale.getDipendenteDTO().setCognome(utenteFromDb.getDipendente().getCognome());
 		utenteParziale.setId(utenteFromDb.getId());
 		request.getSession().setAttribute("userInfo", utenteParziale);
+		if (utenteFromDb.isBO() && !messaggioRepository.findAllByDataLetturaIsNull().isEmpty())
+			request.getSession().setAttribute("newMessages", true);
 		response.sendRedirect("home");
 
 	}

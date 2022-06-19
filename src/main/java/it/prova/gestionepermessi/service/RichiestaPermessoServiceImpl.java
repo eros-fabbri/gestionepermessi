@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import it.prova.gestionepermessi.model.Attachment;
 import it.prova.gestionepermessi.model.RichiestaPermesso;
 import it.prova.gestionepermessi.repository.attachment.AttachmentRepository;
-import it.prova.gestionepermessi.repository.attachment.RichiestaPermessoRepository;
+import it.prova.gestionepermessi.repository.richiestapermesso.RichiestaPermessoRepository;
 
 @Service
 public class RichiestaPermessoServiceImpl implements RichiestaPermessoService {
@@ -74,8 +74,8 @@ public class RichiestaPermessoServiceImpl implements RichiestaPermessoService {
 
 			if (example.getDataFine() != null)
 				predicates.add(cb.greaterThanOrEqualTo(root.get("dataFine"), example.getDataFine()));
-
-			predicates.add(cb.equal(root.get("approvato"), example.isApprovato()));
+			if (example.getApprovato() != null)
+				predicates.add(cb.equal(root.get("approvato"), example.isApprovato()));
 
 			if (StringUtils.isNotEmpty(example.getCodiceCertificato()))
 				predicates.add(cb.like(cb.upper(root.get("codiceCertificato")),

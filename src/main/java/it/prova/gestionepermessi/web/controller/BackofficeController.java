@@ -115,9 +115,14 @@ public class BackofficeController {
 		Utente utente = new Utente(GenerazioneAutomaticaUtility.generaUsernameDaDipendente(dipendente));
     	utente.setId(utenteService.findByDipendenteId(dipendente.getId()).getId());
 		dipendente.setUtente(utente);
-		
 		dipendenteService.aggiorna(dipendente);
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
 		return "redirect:/backoffice";
 	}
+	
+	@GetMapping("/disableNotifica")
+	public void disableNotfica(HttpServletRequest request) {
+		request.getSession().setAttribute("newMessages", false);
+	}
+	
 }

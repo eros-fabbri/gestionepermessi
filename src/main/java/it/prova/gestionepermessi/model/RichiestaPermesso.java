@@ -110,6 +110,22 @@ public class RichiestaPermesso {
 	public void setDipendente(Dipendente dipendente) {
 		this.dipendente = dipendente;
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Boolean getApprovato() {
+		return approvato;
+	}
+
+	public void setApprovato(Boolean approvato) {
+		this.approvato = approvato;
+	}
 	
 	
 }

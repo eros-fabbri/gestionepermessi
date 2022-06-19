@@ -52,6 +52,9 @@
 								<a class="dropdown-item"
 									href="${pageContext.request.contextPath}/dipendente/insert">Nuova 
 									richiesta permesso</a>
+									<a class="dropdown-item"
+									href="${pageContext.request.contextPath}/dipendente/search">Ricerca 
+									richiesta permesso</a>
 							</div></li>
 					</sec:authorize>
 				</ul>

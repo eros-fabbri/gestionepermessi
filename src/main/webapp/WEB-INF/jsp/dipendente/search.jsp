@@ -1,100 +1,177 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <!doctype html>
-<html lang="it" class="h-100" >
+<html lang="it" class="h-100">
 <head>
-	<jsp:include page="../header.jsp" />
-	<title>Ricerca</title>
-	
-    
+<jsp:include page="../header.jsp" />
+
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath }/assets/css/jqueryUI/jquery-ui.min.css" />
+<style>
+.ui-autocomplete-loading {
+	background: white url("../assets/img/jqueryUI/anim_16x16.gif") right
+		center no-repeat;
+}
+
+.error_field {
+	color: red;
+}
+</style>
+<title>Nuova richiesta</title>
+
 </head>
 <body class="d-flex flex-column h-100">
-	<!-- Fixed navbar -->
-	<jsp:include page="../navbar.jsp"></jsp:include>
-	
+	<jsp:include page="../navbar.jsp" />
+
 	<!-- Begin page content -->
 	<main class="flex-shrink-0">
-	  <div class="container">
-	
-			<div class="alert alert-danger alert-dismissible fade show ${errorMessage==null?'d-none': ''}" role="alert">
-			  ${errorMessage}
-			  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-			    <span aria-hidden="true">&times;</span>
-			  </button>
+		<div class="container">
+
+			<%-- se l'attributo in request ha errori --%>
+			<spring:hasBindErrors name="search_richiesta_attr">
+				<%-- alert errori --%>
+				<div class="alert alert-danger " role="alert">Attenzione!!
+					Sono presenti errori di validazione</div>
+			</spring:hasBindErrors>
+
+			<div
+				class="alert alert-danger alert-dismissible fade show ${errorMessage==null?'d-none':'' }"
+				role="alert">
+				${errorMessage}
+				<button type="button" class="btn-close" data-bs-dismiss="alert"
+					aria-label="Close"></button>
 			</div>
-			
-			<div class="alert alert-warning alert-dismissible fade show d-none " role="alert">
-			  Attenzione!!! Funzionalità ancora non implementata. Sulla 'Conferma' per il momento parte il 'listAll'
-			  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" ></button>
-			</div>
-			
+
 			<div class='card'>
-			    <div class='card-header'>
-			        <h5>Ricerca elementi</h5> 
-			    </div>
-			    <div class='card-body'>
-	
-						<form:form method="post" action="${pageContext.request.contextPath}/dipendente/list" class="row g-3">
-						
-							<div class="col-md-6">
-								<label for="nome" class="form-label">Nome</label>
-								<input type="text" name="nome" id="nome" class="form-control" placeholder="Inserire il nome" >
-							</div>
-							
-							<div class="col-md-6">
-								<label for="cognome" class="form-label">Cognome</label>
-								<input type="text" name="cognome" id="cognome" class="form-control" placeholder="Inserire il cognome" >
-							</div>
-							
-							<div class="col-md-6">
-								<label for="codiceFiscale" class="form-label">Codice Fiscale</label>
-								<input type="text" name="codiceFiscale" id="codiceFiscale" class="form-control" placeholder="Inserire il Codice Fiscale" >
-							</div>
-							
-							<div class="col-md-6">
-								<label for="email" class="form-label">Email</label>
-								<input type="text" name="email" id="email" class="form-control" placeholder="Inserire l'Email" >
-							</div>
-							
-							<div class="col-md-3">
-								<label for="dataNascita" class="form-label">Data di Nascita </label>
-                        		<input class="form-control" id="dataNascita" type="date" placeholder="dd/MM/yy"
-                            			title="formato : gg/mm/aaaa"  name="dataNascita"   >
-							</div>
-							
-							<div class="col-md-3">
-								<label for="dataAssunzione" class="form-label">Data Assunzione </label>
-                        		<input class="form-control" id="dataAssunzione" type="date" placeholder="dd/MM/yy"
-                            			title="formato : gg/mm/aaaa"  name="dataAssunzione"   >
-							</div>
-								
-							<div class="col-md-3">
-								<label for="sesso" class="form-label">Sesso </label>
-								<select class="form-select" id="sesso" name="sesso" >
-									<option value="" selected> - Selezionare - </option>
-								    <option value="MASCHIO" >M</option>
-								    <option value="FEMMINA"  >F</option>
+				<div class='card-header'>
+					<h5>Ricerca elemento</h5>
+				</div>
+				<div class='card-body'>
+
+					<form:form method="post" enctype="multipart/form-data" modelAttribute="search_richiesta_attr"
+						action="list" novalidate="novalidate" class="row g-3">
+
+						<div class="col-md-12">
+							<label for="tipoPermesso" class="form-label">Tipo di
+								permesso 
+							</label>
+							<spring:bind path="tipoPermesso">
+								<select id="tipopermesso" class="form-select ${status.error ? 'is-invalid' : ''}"
+									name="tipoPermesso" required>
+									<option value="" selected>- Selezionare -</option>
+									<option value="FERIE"
+										${search_richiesta_attr.tipoPermesso == 'FERIE'?'selected':''}>FERIE</option>
+									<option value="MALATTIA"
+										${search_richiesta_attr.tipoPermesso == 'MALATTIA'?'selected':''}>MALATTIA</option>
 								</select>
+							</spring:bind>
+							<form:errors path="tipoPermesso" cssClass="error_field" />
+						</div>
+						<div class="col-md-6 d-none" id="codicecertificato">
+							<label for="codiceCertificato" class="form-label">Codice
+								certificato   </label>
+							<spring:bind path="codiceCertificato">
+								<input type="text" name="codiceCertificato"
+									id="codiceCertificato"
+									class="form-control ${status.error ? 'is-invalid' : ''}"
+									placeholder="Inserire il codice del certificato"
+									value="${search_richiesta_attr.codiceCertificato }">
+							</spring:bind>
+							<form:errors path="codiceCertificato" cssClass="error_field" />
+						</div>
+						<div id="certificatofile" class="col-md-6 d-none">
+							<label for="file" class="form-label">Carica
+								certificato</label> <input name="file" class="form-control"
+								type="file" id="file">
+						</div>
+						<div class="form-check">
+							<input class="form-check-input" name="giornoSingolo" id="giornosingolo" type="checkbox" value="true"
+								id="flexCheckDefault"> <label class="form-check-label"
+								for="flexCheckDefault"> Giorno Singolo </label>
+						</div>
+						<div class="col-md-6">
+							<fmt:formatDate pattern='yyyy-MM-dd' var="parsedDate" type='date'
+								value='${search_richiesta_attr.dataInizio}' />
+						
+								<label for="dataInizio" class="form-label">Data inizio </label>
+								<spring:bind path="dataInizio">
+									<input class="form-control ${status.error ? 'is-invalid' : ''}"
+										id="dataInizio" type="date" placeholder="dd/MM/yy"
+										title="formato : gg/mm/aaaa" name="dataInizio"
+										value="${parsedDate}">
+								</spring:bind>
+								<form:errors path="dataInizio" cssClass="error_field" />
+						
+						</div>
+						<div class="col-md-6">
+							<fmt:formatDate pattern='yyyy-MM-dd' var="parsedDate" type='date'
+								value='${search_richiesta_attr.dataFine}' />
+
+							<label for="dataFine" class="form-label">Data fine </label>
+							<spring:bind path="dataFine">
+								<input
+									class="form-control disabled ${status.error ? 'is-invalid' : ''}"
+									id="dataFine" type="date" placeholder="dd/MM/yy"
+									title="formato : gg/mm/aaaa" name="dataNascita"
+									value="${parsedDate}">
+							</spring:bind>
+							<form:errors path="dataFine" cssClass="error_field" />
+
+						</div>
+						<div class="form-horizontal">
+							<div class="form-group">
+							<label for="nota" class="form-label">Nota</label>
+								<div class="col-md-12">
+								
+									<textarea class="form-control" id="nota" name="nota" rows="3"></textarea>
+								</div>
 							</div>
-							
-							
-							<div class="col-12">	
-								<button type="submit" name="submit" value="submit" id="submit" class="btn btn-primary">Conferma</button>
-								<input class="btn btn-outline-warning" type="reset" value="Ripulisci">
-							</div>
-	
-							
-						</form:form>
-			    
-				<!-- end card-body -->			   
-			    </div>
-			</div>	
-	
+						</div>
+						<div class="col-12">
+							<button type="submit" name="submit" value="submit" id="submit"
+								class="btn btn-primary">Conferma</button>
+						</div>
+						
+						<input type="hidden" name="userId" value="${userInfo.id}">
+
+					</form:form>
+					<script>
+						$(document).ready(function() {
+							$('#tipopermesso').on('selected', function() {
+								if (this.value == 'MALATTIA') {
+									$("#codicecertificato").removeClass('d-none');
+									$("#certificatofile").removeClass('d-none');
+									
+								} else {
+									$("#codicecertificato").addClass('d-none');
+									$("#certificatofile").addClass('d-none');
+									
+								}
+							});
+							$(document).on('change', '#giornosingolo', function() {
+							    if(this.checked) {
+							    	$("#dataFine").prop('disabled',true);
+							    	$("#finerequired").addClass('d-none');
+							    }else{
+							    	$("#dataFine").prop('disabled',false); 
+							    	$("#finerequired").removeClass('d-none');
+							    }
+							});
+						});
+					</script>
+
+					<!-- end card-body -->
+				</div>
+				<!-- end card -->
+			</div>
+			<!-- end container -->
 		</div>
-	<!-- end container -->	
+
+		<!-- end main -->
 	</main>
 	<jsp:include page="../footer.jsp" />
-	
+
 </body>
-</html>             
+</html>

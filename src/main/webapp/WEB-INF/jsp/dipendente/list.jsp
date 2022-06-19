@@ -56,6 +56,9 @@
 												<c:if test="${!richiestaItem.approvato}">
 												<a class="btn  btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/backoffice/dipendente/edit/${dipendenteItem.id }">Modifica</a>
 												</c:if>
+												<c:if test="${!richiestaItem.approvato}">
+												<a class="btn  btn-sm btn-outline-danger" >Elimina</a>
+												</c:if>
 											</td>
 										</tr>
 									</c:forEach>
