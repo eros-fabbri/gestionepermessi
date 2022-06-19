@@ -19,7 +19,7 @@
 	color: red;
 }
 </style>
-<title>Inserisci nuovo dipendente</title>
+<title>Nuova richiesta</title>
 
 </head>
 <body class="d-flex flex-column h-100">
@@ -50,7 +50,7 @@
 				</div>
 				<div class='card-body'>
 
-					<form:form method="post" modelAttribute="insert_richiesta_attr"
+					<form:form method="post" enctype="multipart/form-data" modelAttribute="insert_richiesta_attr"
 						action="save" novalidate="novalidate" class="row g-3">
 
 						<div class="col-md-12">
@@ -71,7 +71,7 @@
 						</div>
 						<div class="col-md-6 d-none" id="codicecertificato">
 							<label for="codiceCertificato" class="form-label">Codice
-								certificato</label>
+								certificato  <span class="text-danger">*</span> </label>
 							<spring:bind path="codiceCertificato">
 								<input type="text" name="codiceCertificato"
 									id="codiceCertificato"
@@ -82,12 +82,12 @@
 							<form:errors path="codiceCertificato" cssClass="error_field" />
 						</div>
 						<div id="certificatofile" class="col-md-6 d-none">
-							<label for="formFile" class="form-label">Carica
-								certificato</label> <input name="allegato" class="form-control"
-								type="file" id="formFile">
+							<label for="file" class="form-label">Carica
+								certificato</label> <input name="file" class="form-control"
+								type="file" id="file">
 						</div>
 						<div class="form-check">
-							<input class="form-check-input"  id="giornosingolo" type="checkbox" value=""
+							<input class="form-check-input" name="giornoSingolo" id="giornosingolo" type="checkbox" value="true"
 								id="flexCheckDefault"> <label class="form-check-label"
 								for="flexCheckDefault"> Giorno Singolo </label>
 						</div>
@@ -95,7 +95,7 @@
 							<fmt:formatDate pattern='yyyy-MM-dd' var="parsedDate" type='date'
 								value='${insert_richiesta_attr.dataInizio}' />
 						
-								<label for="dataInizio" class="form-label">Data inizio</label>
+								<label for="dataInizio" class="form-label">Data inizio <span class="text-danger">*</span></label>
 								<spring:bind path="dataInizio">
 									<input class="form-control ${status.error ? 'is-invalid' : ''}"
 										id="dataInizio" type="date" placeholder="dd/MM/yy"
@@ -108,23 +108,33 @@
 						<div class="col-md-6">
 							<fmt:formatDate pattern='yyyy-MM-dd' var="parsedDate" type='date'
 								value='${insert_richiesta_attr.dataFine}' />
-							
-								<label for="dataFine" class="form-label">Data fine</label>
-								<spring:bind path="dataFine">
-									<input class="form-control disabled ${status.error ? 'is-invalid' : ''}"
-										id="dataFine" type="date" placeholder="dd/MM/yy"
-										title="formato : gg/mm/aaaa" name="dataNascita"
-										value="${parsedDate}">
-								</spring:bind>
-								<form:errors path="dataFine" cssClass="error_field" />
-							
-						</div>
 
+							<label for="dataFine" class="form-label">Data fine <span id="finerequired" class="text-danger">*</span></label>
+							<spring:bind path="dataFine">
+								<input
+									class="form-control disabled ${status.error ? 'is-invalid' : ''}"
+									id="dataFine" type="date" placeholder="dd/MM/yy"
+									title="formato : gg/mm/aaaa" name="dataNascita"
+									value="${parsedDate}">
+							</spring:bind>
+							<form:errors path="dataFine" cssClass="error_field" />
+
+						</div>
+						<div class="form-horizontal">
+							<div class="form-group">
+							<label for="nota" class="form-label">Nota</label>
+								<div class="col-md-12">
+								
+									<textarea class="form-control" id="nota" name="nota" rows="3"></textarea>
+								</div>
+							</div>
+						</div>
 						<div class="col-12">
 							<button type="submit" name="submit" value="submit" id="submit"
 								class="btn btn-primary">Conferma</button>
 						</div>
 						
+						<input type="hidden" name="userId" value="${userInfo.id}">
 
 					</form:form>
 					<script>
@@ -143,8 +153,10 @@
 							$(document).on('change', '#giornosingolo', function() {
 							    if(this.checked) {
 							    	$("#dataFine").prop('disabled',true);
+							    	$("#finerequired").addClass('d-none');
 							    }else{
 							    	$("#dataFine").prop('disabled',false); 
+							    	$("#finerequired").removeClass('d-none');
 							    }
 							});
 						});

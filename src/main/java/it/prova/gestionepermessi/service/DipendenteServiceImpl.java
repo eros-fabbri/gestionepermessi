@@ -105,4 +105,11 @@ public class DipendenteServiceImpl implements DipendenteService {
 		return dipendenteRepository.findAllDipendenteFilmEager();
 	}
 
+	@Override
+	public Dipendente findByUtenteId(Long id) {
+		
+		
+		return dipendenteRepository.findByUtenteIdEquals(id);
+	}
+
 }

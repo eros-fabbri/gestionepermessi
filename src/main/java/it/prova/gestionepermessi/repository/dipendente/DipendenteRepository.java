@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import it.prova.gestionepermessi.model.Dipendente;
+import it.prova.gestionepermessi.model.Utente;
 
 
 public interface DipendenteRepository extends CrudRepository<Dipendente, Long>{
@@ -13,6 +14,5 @@ public interface DipendenteRepository extends CrudRepository<Dipendente, Long>{
 	@Query("from Dipendente d join fetch d.utente")
 	public List<Dipendente> findAllDipendenteFilmEager();
 	
-	@Query("from Dipendente d join fetch d.utente u where u.id=?1")
-	public Dipendente findByUtenteEquals(Long id);
+	public Dipendente findByUtenteIdEquals(Long id);
 }

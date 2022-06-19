@@ -36,12 +36,12 @@ public class CustomAuthenticationSuccessHandlerImpl implements AuthenticationSuc
 		
 		Utente utenteFromDb = utenteRepository.findByUsername(authentication.getName()).orElseThrow(() -> new UsernameNotFoundException("Username " + authentication.getName() + " not found"));
 		UtenteDTO utenteParziale = new UtenteDTO();
-		Dipendente dipendente = dipendenteRepository.findByUtenteEquals(utenteFromDb.getId());
+		Dipendente dipendente = dipendenteRepository.findByUtenteIdEquals(utenteFromDb.getId());
 		System.out.println(dipendente);
 		utenteParziale.setDipendenteDTO(DipendenteDTO.buildDTOFromDipendente(dipendente));
 		utenteParziale.getDipendenteDTO().setNome(utenteFromDb.getDipendente().getNome());
 		utenteParziale.getDipendenteDTO().setCognome(utenteFromDb.getDipendente().getCognome());
-		
+		utenteParziale.setId(utenteFromDb.getId());
 		request.getSession().setAttribute("userInfo", utenteParziale);
 		response.sendRedirect("home");
 
