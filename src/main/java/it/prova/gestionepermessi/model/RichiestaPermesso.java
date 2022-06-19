@@ -28,7 +28,7 @@ public class RichiestaPermesso {
 	@Column(name = "")
 	private Date dataFine;
 	@Column(name = "")
-	private boolean approvato;
+	private Boolean approvato;
 	@Column(name = "")
 	private String codiceCertificato;
 	@Column(name = "")

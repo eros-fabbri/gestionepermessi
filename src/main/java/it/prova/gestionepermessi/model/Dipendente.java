@@ -168,5 +168,9 @@ public class Dipendente {
 	public void setRichiestaPermesso(List<RichiestaPermesso> richiestaPermesso) {
 		this.richiestaPermesso = richiestaPermesso;
 	}
+	
+	public String getNominativo() {
+		return this.nome + " " + this.cognome;
+	}
 
 }

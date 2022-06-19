@@ -4,7 +4,9 @@ import java.util.Date;
 
 import it.prova.gestionepermessi.model.RichiestaPermesso;
 import it.prova.gestionepermessi.model.TipoPermesso;
+import it.prova.gestionepermessi.validation.constraint.RichiestaPermessoValid;
 
+@RichiestaPermessoValid
 public class RichiestaPermessoInsertDTO {
 
 	private String tipoPermesso;

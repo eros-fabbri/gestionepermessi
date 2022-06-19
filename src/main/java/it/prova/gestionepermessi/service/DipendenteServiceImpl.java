@@ -112,4 +112,10 @@ public class DipendenteServiceImpl implements DipendenteService {
 		return dipendenteRepository.findByUtenteIdEquals(id);
 	}
 
+	@Override
+	public Dipendente findByUtenteUsername(String username) {
+		
+		return dipendenteRepository.findByUtenteUsername(username);
+	}
+
 }

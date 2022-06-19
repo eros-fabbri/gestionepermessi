@@ -17,6 +17,8 @@ public interface DipendenteService {
 	
 	public Dipendente findByUtenteId(Long id);
 	
+	public Dipendente findByUtenteUsername(String username);
+	
 	public List<Dipendente> findByExample(Dipendente example);
 	
 	public void aggiorna(Dipendente dipendenteInstance);

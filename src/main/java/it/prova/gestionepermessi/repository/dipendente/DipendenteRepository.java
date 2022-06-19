@@ -15,4 +15,6 @@ public interface DipendenteRepository extends CrudRepository<Dipendente, Long>{
 	public List<Dipendente> findAllDipendenteFilmEager();
 	
 	public Dipendente findByUtenteIdEquals(Long id);
+	
+	public Dipendente findByUtenteUsername(String username);
 }
